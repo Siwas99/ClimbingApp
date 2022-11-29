@@ -3467,11 +3467,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\wozni\\source\\repos\\ClimbingApp\\ClimbingApp\\ClimbingApp.csproj",
+      "projectUniqueName": "C:\\Users\\wozni\\Documents\\GitHub\\ClimbingApp\\ClimbingApp\\ClimbingApp.csproj",
       "projectName": "ClimbingApp",
-      "projectPath": "C:\\Users\\wozni\\source\\repos\\ClimbingApp\\ClimbingApp\\ClimbingApp.csproj",
+      "projectPath": "C:\\Users\\wozni\\Documents\\GitHub\\ClimbingApp\\ClimbingApp\\ClimbingApp.csproj",
       "packagesPath": "C:\\Users\\wozni\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\wozni\\source\\repos\\ClimbingApp\\ClimbingApp\\obj\\",
+      "outputPath": "C:\\Users\\wozni\\Documents\\GitHub\\ClimbingApp\\ClimbingApp\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\wozni\\AppData\\Roaming\\NuGet\\NuGet.Config",

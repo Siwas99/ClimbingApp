@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "5Y6VTJGDMX+8VgZ9/eMTCa2Z/e2cNKvwoCvBPodFhIAZpeCbNkgUDtD/vxEXOcb28DfVTSn7KpzFM06kn1Tphw==",
+  "dgSpecHash": "MmvHz6Vo+Rp9IImW4+P8ec/uAPB3J4JlA4W73W3tqI6iwVe+7sjAOUUyi4lGAzLNIGtegE9RsAdEASyK4Xjz/w==",
   "success": true,
-  "projectFilePath": "C:\\Users\\wozni\\source\\repos\\ClimbingApp\\ClimbingApp\\ClimbingApp.csproj",
+  "projectFilePath": "C:\\Users\\wozni\\Documents\\GitHub\\ClimbingApp\\ClimbingApp\\ClimbingApp.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\wozni\\.nuget\\packages\\azure.core\\1.24.0\\azure.core.1.24.0.nupkg.sha512",
     "C:\\Users\\wozni\\.nuget\\packages\\azure.identity\\1.6.0\\azure.identity.1.6.0.nupkg.sha512",
