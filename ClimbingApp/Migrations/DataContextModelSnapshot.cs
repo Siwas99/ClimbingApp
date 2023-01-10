@@ -22,6 +22,104 @@ namespace ClimbingApp.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("ClimbingApp.Models.Area", b =>
+                {
+                    b.Property<int>("AreaId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AreaId"));
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("RegionId")
+                        .HasColumnType("int");
+
+                    b.HasKey("AreaId");
+
+                    b.HasIndex("RegionId");
+
+                    b.ToTable("Areas");
+                });
+
+            modelBuilder.Entity("ClimbingApp.Models.ClimbStyle", b =>
+                {
+                    b.Property<int>("ClimbStyleId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ClimbStyleId"));
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ClimbStyleId");
+
+                    b.ToTable("ClimbStyle");
+                });
+
+            modelBuilder.Entity("ClimbingApp.Models.Comment", b =>
+                {
+                    b.Property<int>("CommentId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CommentId"));
+
+                    b.Property<int>("CommentObject")
+                        .HasColumnType("int");
+
+                    b.Property<int>("CommentObjectId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Commentary")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("CommentId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Comments");
+                });
+
+            modelBuilder.Entity("ClimbingApp.Models.DominantRockFormation", b =>
+                {
+                    b.Property<int>("DominantRockFormationId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("DominantRockFormationId"));
+
+                    b.Property<int>("RockFormationId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("RockId")
+                        .HasColumnType("int");
+
+                    b.HasKey("DominantRockFormationId");
+
+                    b.HasIndex("RockFormationId");
+
+                    b.HasIndex("RockId");
+
+                    b.ToTable("DominantRockFormations");
+                });
+
             modelBuilder.Entity("ClimbingApp.Models.ExpeditionLog", b =>
                 {
                     b.Property<int>("ExpeditionLogId")
@@ -29,6 +127,9 @@ namespace ClimbingApp.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ExpeditionLogId"));
+
+                    b.Property<int>("ClimbStyleId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Comment")
                         .IsRequired()
@@ -48,6 +149,8 @@ namespace ClimbingApp.Migrations
 
                     b.HasKey("ExpeditionLogId");
 
+                    b.HasIndex("ClimbStyleId");
+
                     b.HasIndex("RouteId");
 
                     b.HasIndex("UserId");
@@ -63,44 +166,17 @@ namespace ClimbingApp.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RegionId"));
 
-                    b.Property<string>("Name")
+                    b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Town")
+                    b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("RegionId");
 
                     b.ToTable("Regions");
-                });
-
-            modelBuilder.Entity("ClimbingApp.Models.RegionComment", b =>
-                {
-                    b.Property<int>("RegionCommentId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RegionCommentId"));
-
-                    b.Property<string>("Comment")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("RegionId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.HasKey("RegionCommentId");
-
-                    b.HasIndex("RegionId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("RegionComments");
                 });
 
             modelBuilder.Entity("ClimbingApp.Models.Rock", b =>
@@ -111,45 +187,89 @@ namespace ClimbingApp.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RockId"));
 
+                    b.Property<int>("AreaId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Distance")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Height")
+                        .HasColumnType("int");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("RegionId")
+                    b.Property<string>("PhotoURL")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Popularity")
+                        .HasColumnType("int");
+
+                    b.Property<int>("RockFaceExposureId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("isLoose")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("isRecommended")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("isShadedFromTrees")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("positionLatitude")
+                        .HasColumnType("int");
+
+                    b.Property<int>("positionLogitude")
                         .HasColumnType("int");
 
                     b.HasKey("RockId");
 
-                    b.HasIndex("RegionId");
+                    b.HasIndex("AreaId");
+
+                    b.HasIndex("RockFaceExposureId");
 
                     b.ToTable("Rocks");
                 });
 
-            modelBuilder.Entity("ClimbingApp.Models.RockComment", b =>
+            modelBuilder.Entity("ClimbingApp.Models.RockFaceExposure", b =>
                 {
-                    b.Property<int>("RockCommentId")
+                    b.Property<int>("RockFaceExposureId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RockCommentId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RockFaceExposureId"));
 
-                    b.Property<string>("Comment")
+                    b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("RockId")
+                    b.HasKey("RockFaceExposureId");
+
+                    b.ToTable("RockFaceExposures");
+                });
+
+            modelBuilder.Entity("ClimbingApp.Models.RockFormation", b =>
+                {
+                    b.Property<int>("RockFormationId")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RockFormationId"));
 
-                    b.HasKey("RockCommentId");
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
-                    b.HasIndex("RockId");
+                    b.HasKey("RockFormationId");
 
-                    b.HasIndex("UserId");
-
-                    b.ToTable("RockComments");
+                    b.ToTable("RockFormations");
                 });
 
             modelBuilder.Entity("ClimbingApp.Models.Role", b =>
@@ -180,18 +300,23 @@ namespace ClimbingApp.Migrations
                     b.Property<string>("Author")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Difficulty")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("Number")
+                        .HasColumnType("int");
+
                     b.Property<int>("RockId")
                         .HasColumnType("int");
 
-                    b.Property<int>("Year")
+                    b.Property<int?>("Year")
                         .HasColumnType("int");
 
                     b.HasKey("RouteId");
@@ -199,33 +324,6 @@ namespace ClimbingApp.Migrations
                     b.HasIndex("RockId");
 
                     b.ToTable("Routes");
-                });
-
-            modelBuilder.Entity("ClimbingApp.Models.RouteComment", b =>
-                {
-                    b.Property<int>("RouteCommentId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RouteCommentId"));
-
-                    b.Property<string>("Comment")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("RouteId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.HasKey("RouteCommentId");
-
-                    b.HasIndex("RouteId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("RouteComments");
                 });
 
             modelBuilder.Entity("ClimbingApp.Models.User", b =>
@@ -248,9 +346,13 @@ namespace ClimbingApp.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Password")
+                    b.Property<byte[]>("PasswordHash")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("varbinary(max)");
+
+                    b.Property<byte[]>("PasswordSalt")
+                        .IsRequired()
+                        .HasColumnType("varbinary(max)");
 
                     b.Property<int>("RoleId")
                         .HasColumnType("int");
@@ -289,8 +391,55 @@ namespace ClimbingApp.Migrations
                     b.ToTable("Wishlists");
                 });
 
+            modelBuilder.Entity("ClimbingApp.Models.Area", b =>
+                {
+                    b.HasOne("ClimbingApp.Models.Region", "Region")
+                        .WithMany()
+                        .HasForeignKey("RegionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Region");
+                });
+
+            modelBuilder.Entity("ClimbingApp.Models.Comment", b =>
+                {
+                    b.HasOne("ClimbingApp.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("ClimbingApp.Models.DominantRockFormation", b =>
+                {
+                    b.HasOne("ClimbingApp.Models.RockFormation", "RockFormation")
+                        .WithMany()
+                        .HasForeignKey("RockFormationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ClimbingApp.Models.Rock", "Rock")
+                        .WithMany()
+                        .HasForeignKey("RockId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Rock");
+
+                    b.Navigation("RockFormation");
+                });
+
             modelBuilder.Entity("ClimbingApp.Models.ExpeditionLog", b =>
                 {
+                    b.HasOne("ClimbingApp.Models.ClimbStyle", "ClimbStyle")
+                        .WithMany()
+                        .HasForeignKey("ClimbStyleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("ClimbingApp.Models.Route", "Route")
                         .WithMany()
                         .HasForeignKey("RouteId")
@@ -303,58 +452,30 @@ namespace ClimbingApp.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.Navigation("ClimbStyle");
+
                     b.Navigation("Route");
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("ClimbingApp.Models.RegionComment", b =>
-                {
-                    b.HasOne("ClimbingApp.Models.Region", "Region")
-                        .WithMany()
-                        .HasForeignKey("RegionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ClimbingApp.Models.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Region");
 
                     b.Navigation("User");
                 });
 
             modelBuilder.Entity("ClimbingApp.Models.Rock", b =>
                 {
-                    b.HasOne("ClimbingApp.Models.Region", "Region")
+                    b.HasOne("ClimbingApp.Models.Area", "Area")
                         .WithMany()
-                        .HasForeignKey("RegionId")
+                        .HasForeignKey("AreaId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Region");
-                });
-
-            modelBuilder.Entity("ClimbingApp.Models.RockComment", b =>
-                {
-                    b.HasOne("ClimbingApp.Models.Rock", "Rock")
+                    b.HasOne("ClimbingApp.Models.RockFaceExposure", "RockFaceExposure")
                         .WithMany()
-                        .HasForeignKey("RockId")
+                        .HasForeignKey("RockFaceExposureId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ClimbingApp.Models.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Navigation("Area");
 
-                    b.Navigation("Rock");
-
-                    b.Navigation("User");
+                    b.Navigation("RockFaceExposure");
                 });
 
             modelBuilder.Entity("ClimbingApp.Models.Route", b =>
@@ -366,25 +487,6 @@ namespace ClimbingApp.Migrations
                         .IsRequired();
 
                     b.Navigation("Rock");
-                });
-
-            modelBuilder.Entity("ClimbingApp.Models.RouteComment", b =>
-                {
-                    b.HasOne("ClimbingApp.Models.Route", "Route")
-                        .WithMany()
-                        .HasForeignKey("RouteId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ClimbingApp.Models.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Route");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("ClimbingApp.Models.User", b =>

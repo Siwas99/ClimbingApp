@@ -7,7 +7,6 @@ namespace ClimbingApp.Models
         public int RegionId { get; set; }
 
         public String Name { get; set; }
-
-        public string Town { get; set; }
+        public string Description { get; set; }
     }
 }

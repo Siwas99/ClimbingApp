@@ -1,0 +1,374 @@
+.App {
+  text-align: center;
+  min-height: 100vh;
+  width: 100vw;
+  max-width: 100vw;
+  background-color: #ffffff;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+a, a:link, a:visited, a:active{
+  color: #fff;
+  text-decoration: none;
+}
+
+a:hover {
+  color: #fff;
+  cursor: pointer !important;
+}
+
+ul{
+  list-style: none;
+  padding: 0 !important;
+}
+
+.container {
+  padding-top:1%;
+}
+
+/* HOME */
+
+.mainImage {
+  width: 100%;
+  height: auto;
+  max-height:40%;
+  padding-bottom:3%;
+}
+
+.lastActivites {
+  padding: 3% 0;
+}
+
+.lastActivitesInfo {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+.lastActivitesRow {
+  width: 100%;
+}
+
+.lastActivitesInfo::before {
+  display: block;
+  content: "";
+  width: 50%;
+  height:1px;
+  margin:0 25%;
+  background-color: #666666;
+}
+.lastActivites::after {
+  display: block;
+  content: "";
+  width: 50%;
+  height:1px;
+  margin:0 25%;
+  background-color: #666666;
+}
+
+.lastActivitesRow:first-child{
+  font-weight:bold;
+}
+
+/* FOOTER */
+.footer{
+  background-color: #282c34;
+  color:#fff;
+  height:6%;
+  position: sticky;
+  position: -webkit-sticky;
+  top:93%;
+  width: 100%;
+  padding:1% 0;
+}
+
+.footerInfoSection {
+  font-size:0.5em;
+  padding:0.5% 0;
+}
+
+.footerSocialSection {
+  width: 40%;
+  margin: 0 30%;
+  display: flex;
+  justify-content: space-around;
+  font-size:1.3rem;
+}
+
+.footerSeparator { 
+  font-size: 1em;
+  padding: 0 1%;
+}
+
+/* NAVIGATION BAR */
+.navigationBar a {
+  color: #fff;
+  font-size:1em;
+}
+
+.navigationBar a:hover {
+  color: #fff;
+}
+
+.offcanvas-body-custom a{
+  width: 60%;
+  margin:auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding:10%;
+  height: 15vh;
+  color:#282c34;
+
+  border-bottom:1px solid #282c34;
+}
+
+.offcanvas-body-custom a:active, .offcanvas-body-custom a:hover, .offcanvas-title a, .offcanvas-title a:hover  {
+  color:#282c34;
+}
+
+.offcanvas-body-custom form {
+  margin-bottom:5%;
+}
+
+.offcanvasNavigation a:nth-child(2){
+  border-top:1px solid #282c34;
+}
+
+.logoutButton {
+  margin:0 10% 10% 10%;
+  width:80%;
+}
+
+/* BROWSE */
+
+.browseElement {
+  border-bottom:1px solid #282c3445
+}
+
+.browseElement a{
+  color:#282c34;
+}
+
+.browseElement:last-child {
+  border-bottom:none;
+}
+
+.browseElementRowName {
+  font-weight: bold;
+}
+
+.browseElementRow {
+  text-align: left;
+  word-break: break-all;
+  font-size:0.9em;
+  padding-left:1%;
+}
+
+/* ROUTES */
+
+ .mainInfo {
+  font-weight: 500;
+  display: flex;
+  gap: 3%;
+  justify-content: left;
+  align-items: center;
+  width: 90%;
+  padding-left:5%;
+ }
+
+ .additionalInfo {
+  display: flex;
+  font-size:0.8em;
+  display: flex;
+  gap: 3%;
+  justify-content: left;
+  width: 100%;
+  padding-left:5%;
+ }
+
+ .description {
+  text-align: justify;
+}
+
+.numberOfRoutes {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: nowrap;
+  margin-top:1%;
+  width: 90%;
+  padding-left:5%;
+}
+
+.number {
+  width: 14%;
+  max-width:14%;
+}
+
+/* INFORMATION ABOUT ROCK */
+
+.informationRow {
+  display: flex;
+  border-top:1px solid #282c3445;
+  margin: 0.5% 0;
+  text-align: left;
+}
+
+.informationRow:first-child{
+  border-top:none;
+}
+
+.infoName, .infoValue {
+  width:48%;
+  margin-left:2%;
+}
+
+
+
+/* MAPS */
+
+.mapContainer {
+  max-width: 100%;
+  height: 42vh;
+  max-height:42vh;
+  border:1px solid red;
+}
+
+/* SPINNER */
+
+.spinnerContainer {
+  width: 100%;
+  min-height:75vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* PROFILE */
+
+.profileStats {
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 2%;
+  flex-wrap: wrap;
+}
+
+.statsContainer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  /* width: 49%; */
+  margin: 0.5% 0.5%;
+  height:10vh;
+  border: 1px solid #282c34;
+  box-shadow: 1px 1px #09090944 ;
+  border-radius: 5px;
+}
+
+.statsEqualed{
+  width: 49%;
+}
+
+.statsContainer Link{
+background-color: red;
+}
+
+.statsContainer span{
+  font-weight: 500;
+  font-size:2em;
+  width: 100%;
+}
+
+.manageProfile {
+  padding-bottom: 2%;;
+}
+
+/* HISTORY */
+
+.historyRow {
+  width: 100%;
+  display: flex;
+  border-bottom:1px solid #282c3445;
+
+}
+
+.historyRow:last-child {
+  border-bottom: none;
+}
+
+.historyEdit {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 10%;
+}
+
+.historyEntry {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: left;
+  width: 90%;
+  padding-bottom: 2%;
+}
+
+
+.historyLine {
+  text-align: left;
+  font-size:0.8em;
+  line-height: 1.2;
+  margin-left:3%;
+  width: 100%;
+}
+
+.historyLine:first-child {
+  line-height: 1.5;
+  font-size:1em;
+  margin-left:1%;
+  font-weight:650;
+}
+
+.separator {
+  font-weight: bold;
+  padding:0 0.5%;
+}
+
+.buttonHolder{
+  display: flex;
+  justify-content: space-between;
+}
+
+
+/* LOGIN/REGISTER */
+
+.form {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  margin-bottom:3%;
+}
+
+.form input, select {
+  width:90%;
+  padding:2% 5%;
+  margin:2% 0 ;
+  border:1px solid #282c3445;
+  border-radius: 3px; 
+}
+
+.form input:focus-visible, form select:focus-visible {
+    outline: 1px solid #282c3488;
+    border-radius: 3px;
+}
+
+.form label {
+  width: 100%;
+}
+
+.mr-btm-3 {
+  margin-bottom:3%;
+}
+
