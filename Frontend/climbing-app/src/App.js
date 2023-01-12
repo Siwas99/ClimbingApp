@@ -14,6 +14,7 @@ import Register from './pages/register';
 import Profile from './pages/profile';
 import Journey from './pages/journey';
 import Wishlist from './pages/wishlist';
+import SearchResultPage from './pages/searchResultPage';
 
 import { BrowserRouter as Router, Routes, Route} from 'react-router-dom';
 import { RequireAuth, AuthProvider } from 'react-auth-kit';
@@ -35,23 +36,23 @@ function App() {
               <Route path="/" element = {<Home/>}/>
               <Route path="regions" element = {<Regions/>}/>
               <Route path="regions/:Id" element = {<Areas/>}/>
-              {/* <Route path="rocks" element = {<Rocks/>}/> */}
               <Route path="areas/:Id" element = {<Rocks/>}/>
               <Route path="rocks/:Id" element = {<RoutesList/>}/>
               <Route path="routes/:Id" element = {<RoutesPage/>}/>
               <Route path="login" element = {<Login/>}/>
               <Route path="register" element = {<Register/>}/>
-               <Route path={'/profile'} element={
-                                                  <RequireAuth loginPath='/login'>
-                                                    <Profile/>
-                                                  </RequireAuth>
+              <Route path="/searchResults" element = {<SearchResultPage/>}/>
+              <Route path="/searchResults/:phrase" element = {<SearchResultPage/>}/>
+              <Route path={'/profile'} element={<RequireAuth loginPath='/login'>
+													<Profile/>
+												</RequireAuth>
                                                 }/>
               <Route path="journey" element = {<RequireAuth loginPath="/login">
-                                                <Journey/>
+                                                	<Journey/>
                                               </RequireAuth>}/>
               <Route path="wishlist" element = {<RequireAuth loginPath="/login">
-                                                <Wishlist/>
-                                              </RequireAuth>}/>
+                                                	<Wishlist/>
+                                              	</RequireAuth>}/>
 
             </Routes>
           

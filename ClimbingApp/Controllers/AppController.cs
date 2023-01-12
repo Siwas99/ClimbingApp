@@ -5,6 +5,7 @@ using ClimbingApp.Models;
 using ClimbingApp.Repositories;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 using System.Transactions;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
@@ -23,7 +24,7 @@ namespace ClimbingApp.Controllers
 
         [HttpPost]
         [Route("search")]
-        public IActionResult Search([FromBody] string phrase) 
+        public IActionResult Search([FromQuery] string phrase) 
         {
             if(phrase == null)
                 return BadRequest("Phrase was null");
@@ -36,6 +37,9 @@ namespace ClimbingApp.Controllers
                 searchResult.Rocks = _databaseAccess.RockRepository.Search(phrase);
                 searchResult.Routes = _databaseAccess.RouteRepository.Search(phrase);
 
+                if (searchResult.Regions.IsNullOrEmpty() && searchResult.Areas.IsNullOrEmpty() && searchResult.Rocks.IsNullOrEmpty() && searchResult.Routes.IsNullOrEmpty())
+                    return NoContent();
+                    
                 return Json(searchResult);
             }
             catch(Exception ex)

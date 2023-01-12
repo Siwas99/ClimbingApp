@@ -95,6 +95,11 @@ namespace ClimbingApp.Repositories
             return dbContext.ExpeditionLogs.ToList();
         }
 
+        public List<ExpeditionLog> GetLastest()
+        {
+            return dbContext.ExpeditionLogs.Include(x => x.Route).ThenInclude(x => x.Rock).Include(x => x.User).Take(3).ToList();
+        }
+
         public ExpeditionLog GetById(int id)
         {
             return dbContext.ExpeditionLogs.Where(x => x.ExpeditionLogId == id).SingleOrDefault();

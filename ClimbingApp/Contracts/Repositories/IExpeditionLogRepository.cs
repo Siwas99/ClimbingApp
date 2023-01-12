@@ -9,6 +9,7 @@ namespace ClimbingApp.Contracts.Repositories
         public bool CheckIfExists(int routeId, int userId);
         public bool DeleteByUserAndRoute(int routeId, int userId);
         public UserStats GetUserStats(int userId);
+        public List<ExpeditionLog> GetLastest();
 
     }
 }

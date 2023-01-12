@@ -3,7 +3,7 @@ import '../styles/components.css'
 
 
 import {Link, useNavigate} from 'react-router-dom';
-import React from 'react';
+import {useState} from 'react';
 import {useIsAuthenticated, useSignOut} from 'react-auth-kit';
 
 import Button from 'react-bootstrap/Button';
@@ -29,6 +29,8 @@ import Offcanvas from 'react-bootstrap/Offcanvas';
   }
 
 function NavbarComponent() {
+  const [searchPhrase, setPhrase] = useState("");
+
   
 
   const isAuthenticated = useIsAuthenticated()
@@ -57,15 +59,14 @@ function NavbarComponent() {
             </Offcanvas.Header>
             <Offcanvas.Body className={setOffcanvasClasses()}>
               <Nav className="justify-content-end flex-grow-1 pe-3 offcanvasNavigation">
-                <Form className="d-flex">
-                <Form.Control
-                  type="search"
-                  placeholder=" np. Kaszanka dla Kierownika"
-                  className="me-2"
-                  aria-label="Search"
-                />
-                <Button variant="outline-success">Szukaj</Button>
-              </Form>
+                <div className="d-flex searchContainer">
+                  {/* <input type="text" placeholder="np. Kaszanka dla Kierownika" className="navbarSearch" onChange={(e) => {setPhrase(e.target.value)}} /> */}
+                  <Form.Control className="navbarSearch" type="text" placeholder="np. Kaszanka dla kierownika" onChange={(e) => {
+																								setPhrase(e.target.value);
+																								closeOffcanvas();
+																								}} />
+				  <Button variant="outline-success" onClick={() => navigate(`/searchResults/${searchPhrase}`)}>Szukaj</Button>
+                </div>
                 <Link to="regions" onClick={() => closeOffcanvas()}>Przeglądaj drogi</Link>
                 <Link to="journey" onClick={() => closeOffcanvas()}>Dziennik</Link>
                 <Link to="wishlist" onClick={() => closeOffcanvas()}>Planowanie</Link>

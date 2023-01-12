@@ -58,6 +58,23 @@ namespace ClimbingApp.Controllers
 
         }
 
+        [HttpGet]
+        [Route("getlastest")]
+        public IActionResult GetLastest() {
+            try
+            {
+                var lastest = _databaseAccess.ExpeditionLogRepository.GetLastest();
+                if(lastest == null)
+                    return NotFound();
+
+                return Json(lastest);
+            }
+            catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
         [HttpPost]
         [Route("update")]
         public IActionResult Update([FromBody] ExpeditionLog updateData)

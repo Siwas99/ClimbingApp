@@ -131,7 +131,7 @@ namespace ClimbingApp.Controllers
         }
 
         [HttpPost]
-        [Route("getrocksbyregionid")]
+        [Route("getrocksbyareaid")]
         public IActionResult ListRocksByAreaId([FromQuery] int? areaId = null)
         {
             if (areaId == null)

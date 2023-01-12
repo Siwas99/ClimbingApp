@@ -144,6 +144,16 @@ ul{
   width:80%;
 }
 
+.navbarSearch{
+  width: 80%;
+  border-radius:5px;
+  margin-right: 1%;
+}
+
+.searchContainer {
+  padding-bottom:3%;
+}
+
 /* BROWSE */
 
 .browseElement {
@@ -372,3 +382,28 @@ background-color: red;
   margin-bottom:3%;
 }
 
+/* SEARCH */
+
+.resultContainer {
+  width:100%;
+  display: flex;
+  flex-wrap: Wrap;
+}
+
+.resultHeader {
+  width: auto;
+  text-align: left;
+  padding:0 2%;
+  margin-left:2%;
+  border-bottom: 1px solid #282c3445;
+}
+
+.resultBody {
+  width:95%;
+  padding-left: 5%;
+  text-align: left;
+}
+
+.resultRow {
+  margin: 1% 0;
+}
