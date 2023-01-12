@@ -200,6 +200,12 @@ namespace ClimbingApp.Migrations
                     b.Property<int>("Height")
                         .HasColumnType("int");
 
+                    b.Property<float>("Latitude")
+                        .HasColumnType("real");
+
+                    b.Property<float>("Longitude")
+                        .HasColumnType("real");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -222,12 +228,6 @@ namespace ClimbingApp.Migrations
 
                     b.Property<bool>("isShadedFromTrees")
                         .HasColumnType("bit");
-
-                    b.Property<int>("positionLatitude")
-                        .HasColumnType("int");
-
-                    b.Property<int>("positionLogitude")
-                        .HasColumnType("int");
 
                     b.HasKey("RockId");
 

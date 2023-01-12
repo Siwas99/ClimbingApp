@@ -7,7 +7,7 @@
         public int RouteId { get; set; }
         public DateTime Date{ get; set; }
         public int Valuation { get; set; }
-        public ClimbStyle ClimbStyleId { get; set; }
+        public int ClimbStyleId { get; set; }
         public string Comment { get; set; }
         
         public virtual User User{ get; set; }

@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using ClimbingApp.Contracts.Repositories;
+using ClimbingApp.Data.DTO;
 using ClimbingApp.Models;
 using ClimbingApp.Repositories;
 using Microsoft.AspNetCore.Cors;
@@ -19,15 +20,24 @@ namespace ClimbingApp.Controllers
             _databaseAccess = databaseAccess;
         }
 
-        [HttpPost]
+        [HttpPut]
         [Route("insert")]
-        public IActionResult Insert([FromBody] ExpeditionLog insertData)
+        public IActionResult Insert([FromBody] ExpeditionLog insertData, [FromQuery] string login)
         {
+            if(insertData == null)
+                return BadRequest("Inserted data was null");
+
+            var user = _databaseAccess.UserRepository.GetByLogin(login);
+            if (user == null)
+                return BadRequest($"Unable to find user with login = {login}");
+
+            insertData.UserId = user.UserId;
+
             try
             {
                 var result = _databaseAccess.ExpeditionLogRepository.Insert(insertData);
                 if (result)
-                    return Ok();
+                    return Json(result);
             }
             catch (Exception e)
             {
@@ -51,12 +61,14 @@ namespace ClimbingApp.Controllers
         [HttpPost]
         [Route("update")]
         public IActionResult Update([FromBody] ExpeditionLog updateData)
-        {
+         {
+            if (updateData == null)
+                return BadRequest("updateData was null");
             try
             {
                 var result = _databaseAccess.ExpeditionLogRepository.Update(updateData);
                 if (result)
-                    return Ok();
+                    return Json(result);
             }
             catch (Exception e)
             {
@@ -68,13 +80,15 @@ namespace ClimbingApp.Controllers
 
         [HttpPost]
         [Route("delete")]
-        public IActionResult Delete([FromBody] int id)
+        public IActionResult Delete([FromQuery] int id)
         {
+            if (id == 0)
+                return BadRequest("id was 0");
             try
             {
                 var result = _databaseAccess.ExpeditionLogRepository.Delete(id);
                 if (result)
-                    return Ok();
+                    return Json(result);
             }
             catch (Exception e)
             {
@@ -93,8 +107,8 @@ namespace ClimbingApp.Controllers
         }
 
         [HttpPost]
-        [Route("getexpeditionlogbylogin")]
-        public IActionResult GetByUserLogin([FromBody] string? login = null)
+        [Route("getexpeditionlogsbylogin")]
+        public IActionResult GetByUserLogin([FromQuery] string login)
         {
             if(login == null)
             {
@@ -111,6 +125,64 @@ namespace ClimbingApp.Controllers
             var result = _databaseAccess.ExpeditionLogRepository.GetByUsersId(user.UserId);
 
             return Json(result);
+        }
+
+        [HttpPost]
+        [Route("checkifexpeditionlogexists")]
+        public IActionResult CheckIfExpeditionLogExsists([FromBody] userLoginWithRoute request )
+        {
+            if (request == null )
+                return BadRequest("Request was null");
+
+            var user = _databaseAccess.UserRepository.GetByLogin(request.login);
+
+            if (user == null)
+                return BadRequest($"Unable to find user with login {request.login}");
+
+            var result = _databaseAccess.ExpeditionLogRepository.CheckIfExists(request.routeId, user.UserId);
+
+            return Json(result);
+        }
+
+        [HttpPost]
+        [Route("deletebyloginandroute")]
+        public IActionResult DeleteByLoginAndRoute([FromBody] userLoginWithRoute request) {
+            if (request == null)
+                return BadRequest("Request was null");
+
+            var user = _databaseAccess.UserRepository.GetByLogin(request.login);
+            if (user == null)
+                return BadRequest($"Unable to find user with login {request.login}");
+
+            var result = _databaseAccess.ExpeditionLogRepository.DeleteByUserAndRoute(request.routeId, user.UserId);
+
+            if (result)
+                return Json(result);
+            return BadRequest("Unable to delete expeditionLog");
+
+        }
+
+        [HttpPost]
+        [Route("getuserstats")]
+        public IActionResult GetUserStats([FromQuery] string login)
+        {
+            if (login == null)
+                return BadRequest("Login was null");
+
+            var user = _databaseAccess.UserRepository.GetByLogin(login);
+
+            if (user == null)
+                return BadRequest($"Unable to find user with login = {login}");
+
+            try
+            {
+                var result = _databaseAccess.ExpeditionLogRepository.GetUserStats(user.UserId);
+                return Json(result);
+            }
+            catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
     }
 }

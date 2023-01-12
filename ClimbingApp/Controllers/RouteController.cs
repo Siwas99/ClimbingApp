@@ -1,9 +1,7 @@
 ﻿using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
-using AutoMapper;
 
 using ClimbingApp.Contracts.Repositories;
-using ClimbingApp.Repositories;
 using Route = ClimbingApp.Models.Route;
 
 namespace ClimbingApp.Controllers
@@ -51,15 +49,13 @@ namespace ClimbingApp.Controllers
 
         [HttpPost]
         [Route("update")]
-        public IActionResult Update([FromBody] Route updateData, [FromQuery] int rockId)
+        public IActionResult Update([FromBody] Route updateData)
         {
-            if (rockId == null)
-                return BadRequest("rockId was null");
+            //if (rockId == null)
+            //    return BadRequest("rockId was null");
 
             try
             {
-                updateData.RockId = rockId;
-
                 var result = _databaseAccess.RouteRepository.Update(updateData);
                 if (result)
                     return Ok();

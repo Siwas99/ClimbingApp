@@ -119,5 +119,10 @@ namespace ClimbingApp.Repositories
             return numberOfRoutes;
         }
 
+        public List<Area> Search(string phrase)
+        {
+            return dbContext.Areas.Where(x => x.Name.Contains(phrase)).ToList();
+        }
+
     }
 }

@@ -23,6 +23,7 @@ function Rocks() {
   const [rocks, setRocks] = useState(null);
   const [area, setArea] = useState(null);
   const [isLoading, setLoading] = useState(true);
+  const [wasChanges, setWasChanged] = useState(false);
 
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState(false);
@@ -49,10 +50,6 @@ function Rocks() {
     }, []);
 
 
-  const handleAddrTypeChangeExpo = (e) => setExposure(exposure[e.target.value]);
-
-  
-  
   const handleSubmit = () => {
     const rock = {
       name: name,
@@ -105,13 +102,14 @@ function Rocks() {
                 isShadedFromTrees: shaded,
                 isRecommended: recommended,
                 isLoose: loose,
-                positionLatitude: latitude,
-                positionLogitude: longitude,
+                latitude: latitude,
+                longitude: longitude,
                 slabs: slab,
                 vertical: vertical,
                 overhang: overhang,
                 roof: roof,
-                areaId: Id
+                areaId: Id,
+                changes: wasChanges
             },
             headers: {'Content-Type': 'application/json'},
             dataType : "json"
@@ -148,6 +146,10 @@ function Rocks() {
                 setLoading(false);
             })
         });
+    }
+
+    const handleCheckboxChange = () =>{
+        setWasChanged(true);
     }
 
     const form = () => {
@@ -193,13 +195,25 @@ function Rocks() {
                 />
                 <label>Dominujące formacje</label>
                 <label>Połogie płyty</label>
-                <input type="checkbox" value={slab} onChange={() => setSlab(slab? false: true)}/>
+                <input type="checkbox" value={slab} onChange={() => {
+                    handleCheckboxChange();
+                    setSlab(slab? false: true)
+                }}/>
                 <label>Piony</label>
-                <input type="checkbox" value={vertical} onChange={() => setVertical(vertical? false: true)}/>
+                <input type="checkbox" value={vertical} onChange={() => {
+                    handleCheckboxChange();
+                    setVertical(vertical? false: true)
+                }}/>
                 <label>Przewieszenia</label>
-                <input type="checkbox" value={overhang} onChange={() => setOverhang(overhang? false: true)}/>
+                <input type="checkbox" value={overhang} onChange={() => {
+                    handleCheckboxChange();
+                    setOverhang(overhang? false: true)
+                }}/>
                 <label>Dachy</label>
-                <input type="checkbox" value={roof} onChange={() => setRoof(roof ? false: true)}/>
+                <input type="checkbox" value={roof} onChange={() => {
+                    handleCheckboxChange();
+                    setRoof(roof ? false: true)
+                }}/>
                 
                 <label>Wystawa ściany</label>
                 <select value={exposure} onChange={(e) => setExposure(e.target.value)}>
@@ -212,19 +226,28 @@ function Rocks() {
                 <input 
                     type="checkbox"
                     value={shaded}
-                    onChange={() => setShaded(shaded ? false: true)}
+                    onChange={() => {
+                    handleCheckboxChange();
+                    setShaded(shaded? false: true)
+                }}
                 />
                 <label>Rekomendowana</label>
                 <input 
                     type="checkbox"
                     value ={recommended}
-                    onChange={() => setRecommended(recommended ? false: true)}
+                    onChange={() => {
+                    handleCheckboxChange();
+                    setRecommended(recommended? false: true)
+                }}
                 />
                 <label>Krucha</label>
                 <input 
                     type="checkbox"
                     value={loose}
-                    onChange={() => setLoose(loose ? false: true)}
+                    onChange={() => {
+                    handleCheckboxChange();
+                    setLoose(loose? false: true)
+                }}
                 />
                 <label>Wysokość geograficzna</label>
                     <input 
@@ -266,6 +289,7 @@ function Rocks() {
         setVertical(false);
         setOverhang(false);
         setRoof(false);
+        setWasChanged(false);
     }
 
   

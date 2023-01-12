@@ -52,7 +52,7 @@ export default function Rock(props){
                 </Link>
                 <FormComponent show={modalShow} id={props.Id} 
                 onHide={() => onHide()} 
-                type="rock" name={props.element.name}
+                type="rock" name={props.element.name} 
                 element="skałę"  
                 onEdit = {props.onEdit} 
                 onDelete = {props.onDelete}

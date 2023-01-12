@@ -1,6 +1,7 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../styles/components.css'
 
+
 import {Link, useNavigate} from 'react-router-dom';
 import React from 'react';
 import {useIsAuthenticated, useSignOut} from 'react-auth-kit';
@@ -73,7 +74,6 @@ function NavbarComponent() {
                 <Link to='login' onClick={() => closeOffcanvas()}>Logowanie</Link>
               }
               </Nav>
-              
             </Offcanvas.Body>
               {isAuthenticated() ?
                 <Button variant="outline-danger" onClick={logout} className="logoutButton">Wyloguj się</Button> :

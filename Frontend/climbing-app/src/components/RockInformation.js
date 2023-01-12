@@ -30,6 +30,13 @@ function ExposureToHuman(exposure){
     }
 }
 
+const rockFormationDictionary = {
+    Slabs: "Połogie płyty",
+    Vertical: "Piony",
+    Overhang: "Przewieszania",
+    Roof: "Dachy"
+}
+
 export default function RockInformation(props){
 
     if(props.isRoute)
@@ -45,13 +52,17 @@ export default function RockInformation(props){
 
     return(
         <>
-        <InformationRowComponent info="Wysokość ściany" value = {props.rock.height}/>
-        <InformationRowComponent info="Odległość od parkingu" value = {`${props.rock.distance} minut`}/>
-        <InformationRowComponent info="Popularność" value = {PopularityToHuman(props.rock.popularity)}/>
-        <InformationRowComponent info="Rekomendowana" value = {BoolenToHuman(props.rock.isRecommended)}/>
-        <InformationRowComponent info="Wystawa ściany" value = {ExposureToHuman(props.rock.rockFaceExposure.name)}/>
-        <InformationRowComponent info="Zacieniona od drzew" value = {BoolenToHuman(props.rock.isShadedFromTrees)}/>
-        <InformationRowComponent info="Krucha" value = {BoolenToHuman(props.rock.isLose)}/>
+            <InformationRowComponent info="Wysokość ściany" value = {props.rock.height}/>
+            <InformationRowComponent info="Odległość od parkingu" value = {`${props.rock.distance} minut`}/>
+            <InformationRowComponent info="Popularność" value = {PopularityToHuman(props.rock.popularity)}/>
+            <InformationRowComponent info="Rekomendowana" value = {BoolenToHuman(props.rock.isRecommended)}/>
+            <InformationRowComponent info="Wystawa ściany" value = {ExposureToHuman(props.rock.rockFaceExposure.name)}/>
+            <InformationRowComponent info="Zacieniona od drzew" value = {BoolenToHuman(props.rock.isShadedFromTrees)}/>
+            <InformationRowComponent info="Krucha" value = {BoolenToHuman(props.rock.isLoose)}/>
+
+            {props.dominantFormations.map(function(element, index){
+                return <InformationRowComponent key={index} info="Dominujące formacje" value = {rockFormationDictionary[element.rockFormation.name]}/>
+            })}
         </>
     )
 

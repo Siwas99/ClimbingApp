@@ -56,8 +56,8 @@ namespace ClimbingApp.Controllers
                         isLoose = insertData.IsLoose,
                         isRecommended = insertData.IsRecommended,
                         isShadedFromTrees = insertData.IsShadedFromTrees,
-                        positionLatitude = insertData.PositionLatitude,
-                        positionLogitude = insertData.PositionLogitude,
+                        Latitude = insertData.Latitude,
+                        Longitude = insertData.Longitude,
                         AreaId = areaId,
                         RockFaceExposureId = rockExpo.RockFaceExposureId,
                         PhotoURL = ""
@@ -160,38 +160,56 @@ namespace ClimbingApp.Controllers
         [Route("update")]
         public IActionResult Update([FromBody] RockDTO updateData)
         {
-            try
+            using( TransactionScope transaction = new TransactionScope())
             {
-                var rockExpo = _databaseAccess.RockFaceExposureRepository.GetRockFaceExposureByName(updateData.RockFaceExposure);
-                if (rockExpo == null)
-                    return BadRequest("Unable to find rock face exposure");
 
-                var rock = new Rock
+                try
                 {
-                    RockId =updateData.RockId,
-                    Name = updateData.Name,
-                    Description = updateData.Description,
-                    Distance = updateData.Distance,
-                    Height = updateData.Height,
-                    Popularity = updateData.Popularity,
-                    isLoose = updateData.IsLoose,
-                    isRecommended = updateData.IsRecommended,
-                    isShadedFromTrees = updateData.IsShadedFromTrees,
-                    positionLatitude = updateData.PositionLatitude,
-                    positionLogitude = updateData.PositionLogitude,
-                    AreaId = updateData.AreaId,
-                    RockFaceExposureId = rockExpo.RockFaceExposureId
-                };
+                    var rockExpo = _databaseAccess.RockFaceExposureRepository.GetRockFaceExposureByName(updateData.RockFaceExposure);
+                    if (rockExpo == null)
+                    {
+                        transaction.Dispose();
+                        return BadRequest("Unable to find rock face exposure");
+                    }
+                    var newDominantRockFormations = _databaseAccess.DominantRockFormationRepository.GetNewDominatRockFormations(updateData);
 
-                var result = _databaseAccess.RockRepository.Update(rock);
-                if (result)
-                    return Ok();
+                    if (!_databaseAccess.DominantRockFormationRepository.UpdateByRockId(updateData.RockId, newDominantRockFormations))
+                    {
+                        transaction.Dispose();
+                        return BadRequest("Unable to update Dominant Rock Formation");
+                    }
+
+                    var rock = new Rock
+                    {
+                        RockId =updateData.RockId,
+                        Name = updateData.Name,
+                        Description = updateData.Description,
+                        Distance = updateData.Distance,
+                        Height = updateData.Height,
+                        Popularity = updateData.Popularity,
+                        isLoose = updateData.IsLoose,
+                        isRecommended = updateData.IsRecommended,
+                        isShadedFromTrees = updateData.IsShadedFromTrees,
+                        Latitude = updateData.Latitude,
+                        Longitude = updateData.Longitude,
+                        AreaId = updateData.AreaId,
+                        RockFaceExposureId = rockExpo.RockFaceExposureId
+                    };
+
+                    var result = _databaseAccess.RockRepository.Update(rock, updateData.changes);
+                    if (result)
+                    {
+                        transaction.Complete();
+                        return Ok();
+                    }
+                }
+                catch (Exception e)
+                {
+                    transaction.Dispose();
+                    return BadRequest(e);
+                }
+                return BadRequest("Unable to update rock");
             }
-            catch (Exception e)
-            {
-                return BadRequest(e);
-            }
-            return BadRequest("Unable to update rock");
 
         }
 
@@ -221,6 +239,25 @@ namespace ClimbingApp.Controllers
             var result = _databaseAccess.RockRepository.GetById(rockId);
 
             return Json(result);
+        }
+
+        [HttpPost]
+        [Route("getrocksdominantformations")]
+        public IActionResult GetRocksDominantFormations([FromQuery] int rockId)
+        {
+            if (rockId == 0)
+                return BadRequest("RockId was 0");
+
+            try
+            {
+                var rockFormations = _databaseAccess.DominantRockFormationRepository.GetRockFormationsByRockId(rockId);
+                
+                return Json(rockFormations);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex);
+            }
         }
 
     }

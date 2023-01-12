@@ -30,17 +30,23 @@ export default function Journey() {
     const [isLoading, setLoading] = React.useState(true);
 
     React.useEffect(() => {
-            axios.post(`${baseURL}wishlist/getwishlistbylogin`, {
-                login: auth().login
-            }).then((response) => {
-                setWishlists(response.data);
-                setLoading(false);
-            });
+            getWishlists();
         }, []);
 
-//UNCOMMENT WHEN DOWNLOAND USER DATA WILL BE COMPLETED
-    // if(isLoading)
-    //     return(<Spinner/>)
+    const getWishlists = async () => {
+        await axios.post(`${baseURL}wishlist/getwishlistbylogin?login=${auth().login}`)
+        .then((response) => {
+            setWishlists(response.data);
+            setLoading(false);
+        });
+    } 
+
+    const handleDelete = (id) => {
+        axios.post(`${baseURL}wishlist/delete?id=${id}`).then(() => {getWishlists()});
+    }
+
+    if(isLoading)
+        return(<Spinner/>)
 
     return (
         <div className='container'>
@@ -49,10 +55,18 @@ export default function Journey() {
             <div className="manageProfile">
                 <h4>Historia</h4>
                 <ul>
-                    <HistoryElement />
-                    <HistoryElement />
-                    <HistoryElement />
-                    <HistoryElement />
+                     { wishlists.length > 0 ?
+                    wishlists.map(function(element, index){
+                        return <HistoryElement 
+                        key={index} 
+                        element={element} 
+                        getFunction={getWishlists}
+                        isHistory={false}
+                        handleDelete={handleDelete}
+                        />
+                    }) :
+                    "Brak zaplanowanych przejść"
+                }
                 </ul>
 
             </div>

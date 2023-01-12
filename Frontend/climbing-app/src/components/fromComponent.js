@@ -8,9 +8,9 @@ import axios from 'axios';
 const baseURL = "https://localhost:7191/api/";
 export default function FormComponent(props) {
     const auth = useAuthUser();
-    const {onEdit, onDelete, formTemplate , ...rest} = props;
+    const {onEdit, onDelete, formTemplate , id, ...rest} = props;
+    
     const closeModal = () => {
-        // clearVariables();
         props.onHide();
     }
 
@@ -31,7 +31,7 @@ export default function FormComponent(props) {
         >
         <Modal.Header>
             <Modal.Title id="contained-modal-title-vcenter">
-                Edytuj {props.element} - {props.name}
+                Edytuj {props.element} {props.name ? `- ${props.name}` : ''}
             </Modal.Title>
         </Modal.Header>
         <Modal.Body>
@@ -42,10 +42,17 @@ export default function FormComponent(props) {
            {formTemplate()}
             </div>
             
+            {
+                !props.isAdd ?
             <div className="buttonHolder">
                 <Button variant="outline-success"onClick={handleEdit} > Edytuj </Button>
                 <Button variant="outline-danger" onClick={handleDelete} > Usuń </Button> 
             </div>
+            :
+            <div className="buttonHolder">
+                <Button variant="outline-success"onClick={handleEdit} > Dodaj </Button>
+            </div>
+            }
 
             
         </Modal.Body>

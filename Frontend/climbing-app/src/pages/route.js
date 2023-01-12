@@ -27,61 +27,91 @@ function Element(props) {
     const { Id } = useParams();
     const [isLoading, setLoading] = React.useState(true);
     const [route, setRoute] = React.useState(null);
+    const [dominantFormations, setDominantFormations] = React.useState(null);
     const [modalShow, setModalShow] = React.useState(false);
+    const [wishlist, setWishlist] = React.useState(false);
+    const [journey, setJourney] = React.useState(false);
 
 
     React.useEffect(() => {
-        axios.post(`${baseURL}routes/getroutebyid?routeId=${Id}`).then((response) => {
-            setRoute(response.data);
-            setLoading(false);
-            });
+        getRoute();
     }, []);
     
+    const getRoute = async () => {
+        await axios.post(`${baseURL}routes/getroutebyid?routeId=${Id}`).then((response) => {
+            setRoute(response.data);
+            checkJourney(response.data.routeId);
+            checkWishlist(response.data.routeId);
+            axios.post(`${baseURL}rocks/getrocksdominantformations?rockId=${response.data.rock.rockId}`).then((response) =>{
+                setDominantFormations(response.data);
+                setLoading(false);
+            });
+        });
+    }
+
     const addToWishlist = async () => {
-//         const usersName = JSON.stringify({ login: 'John Doe' });
-//         const customConfig = {
-//             headers: {
-//             'Content-Type': 'application/json'
-//             }
-//         };
-// const result = await axios.post(`${baseURL}wishlist/insert`, usersName, customConfig);
-    const login = auth().login;
-
-        // axios.post(`${baseURL}wishlist/insert`, {
-        //     login : login,
-        //     route : route
-        // }).then((response)=>{
-        //     alert("Dodano do planowanych");
-        // })
-
-
         axios({
             method: 'POST',
-            url: `${baseURL}wishlist/insert?login=${login}`,
+            url: `${baseURL}wishlist/insert?login=${auth().login}`,
             data: JSON.stringify(route),
             headers: {'Content-Type': 'application/json'},
             dataType : "json"
+        }).then(response => {
+            console.log(response.data);
+            if(response.data === true)
+                setWishlist(true);
         });
+    }
 
+    const deleteFromWishlist = async () => {
+        await axios.post(`${baseURL}wishlist/deletebyloginandroute`,{
+            login: auth().login,
+            routeId: route.routeId
+        }).then(response => {
+            if(response.data  === true){
+                setWishlist(false);
+                console.log(`deletewishlist is ${wishlist}`);
 
-        // axios.put(`${baseURL}wishlist/insert`, {route}, {
-        // withCredentials: true,
-        // headers: {'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json'
-        // }});
+            }
+        });
+    }
 
+    const deleteFromJourney = async () => {
+        await axios.post(`${baseURL}expeditionlogs/deletebyloginandroute`,{
+            login: auth().login,
+            routeId: route.routeId
+        }).then(response => {
+            if(response.data === true){
+                setJourney(false);
+            }
+        });
+    }
 
-        // fetch(`${baseURL}wishlist/insert`,{
-        //     method: "POST",
-        //     headers:{"Content-Type": "application/json"},
-        //     body: JSON.stringify({
-        //         route: route
-        //     })
-        // }).then(() =>{
+    const checkWishlist = async (routeId) => {
+        await axios.post(`${baseURL}wishlist/checkifwishlistexists`,{
+            login: auth().login,
+            routeId: routeId
+        }).then(response => {
+            if(response.data  === true)
+                setWishlist(true);
+        });
+    }
 
-        //     alert("działa");
-        // });
-        
-        }
+    const checkJourney = async (routeId) => {
+        await axios.post(`${baseURL}expeditionlogs/checkifexpeditionlogexists`,{
+            login: auth().login,
+            routeId: routeId
+        }).then(response => {
+            if(response.data  === true)
+                setJourney(true);
+        });
+    }
+
+    const closeModal = (isAdded) => {
+        setModalShow(false);
+        setJourney(isAdded);
+    }
+
     if(isLoading)
         return (<Spinner/>)
 
@@ -105,23 +135,26 @@ function Element(props) {
                         
                         <RockInformation route={route} isRoute = {true} />
                         <br/>
-                        <RockInformation rock={route.rock} />
+                        <RockInformation rock={route.rock} dominantFormations={dominantFormations} />
                     </Tab>
-                    <Tab eventKey="comments" title="Komentarze">
-
-                    </Tab>
-
                     <Tab eventKey="map" title="Mapa">
                         <MapComponent name="Biblioteka" position={[12.345, 34.123]}/>
                     </Tab>
                 </Tabs>
                 <br/>
             </div>
-
-            <Button variant="outline-success" onClick={() => setModalShow(true)}>Dodaj wpis do dziennika</Button>
-            <Button variant="outline-success" onClick={addToWishlist} style={{margin: "2% 0"}}>Dodaj do planowanych</Button>
-            
-            <AddRouteToJourneyModal show={modalShow} onHide={() => setModalShow(false)} route={route}/>
+            {
+                journey ?
+                <Button variant="outline-danger" onClick={deleteFromJourney}>Usuń wpis z dziennika</Button> :
+                <Button variant="outline-success" onClick={() => setModalShow(true)}>Dodaj wpis do dziennika</Button>
+            }
+            { 
+                wishlist ?
+                <Button variant="outline-danger" onClick={deleteFromWishlist} style={{margin: "2% 0"}}>Usuń z planowanych</Button> :
+                <Button variant="outline-success" onClick={addToWishlist} style={{margin: "2% 0"}}>Dodaj do planowanych</Button>
+                
+            }
+            <AddRouteToJourneyModal show={modalShow} onHide={closeModal} route={route} />
         </div>
     );
 }

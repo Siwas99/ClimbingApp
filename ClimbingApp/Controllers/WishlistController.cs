@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Azure.Core;
 using ClimbingApp.Contracts.Repositories;
+using ClimbingApp.Data.DTO;
 using ClimbingApp.Models;
 using ClimbingApp.Repositories;
 using Microsoft.AspNetCore.Authorization;
@@ -31,21 +32,20 @@ namespace ClimbingApp.Controllers
             }
 
             var user = _databaseAccess.UserRepository.GetByLogin(login);
-            if (user != null)
+            if (user == null)
+                return BadRequest($"Unable to find user with login = {login}");
+
+            try
             {
-                try
-                {
-                    var result = _databaseAccess.WishlistRepository.Insert(route, user);
-                    if (result)
-                        return Ok();
-                }
-                catch (Exception e)
-                {
-                    return BadRequest(e);
-                }
-                return BadRequest("Unable to insert wishlist");
+                var result = _databaseAccess.WishlistRepository.Insert(route, user);
+                if (result)
+                    return Json(result);
             }
-            return BadRequest($"Unable to find user with login = {login}");
+            catch (Exception e)
+            {
+                return BadRequest(e);
+            }
+            return BadRequest("Unable to insert wishlist");
 
         }
 
@@ -81,8 +81,10 @@ namespace ClimbingApp.Controllers
 
         [HttpPost]
         [Route("delete")]
-        public IActionResult Delete(int id)
+        public IActionResult Delete([FromQuery]int id)
         {
+            if (id == 0)
+                return BadRequest("id was 0");
             try
             {
                 var result = _databaseAccess.WishlistRepository.Delete(id);
@@ -108,7 +110,7 @@ namespace ClimbingApp.Controllers
 
         [HttpPost]
         [Route("getwishlistbylogin")]
-        public IActionResult GetByLogin([FromBody] string? login = null)
+        public IActionResult GetByUserLogin([FromQuery] string? login = null)
         {
             if (login == null)
                 return BadRequest("login was null");
@@ -119,6 +121,43 @@ namespace ClimbingApp.Controllers
             var result = _databaseAccess.WishlistRepository.GetByUserId(user.UserId);
 
             return Json(result);
+        }
+
+
+        [HttpPost]
+        [Route("checkifwishlistexists")]
+        public IActionResult CheckIfWishlistExsists([FromBody] userLoginWithRoute request )
+        {
+            if (request == null)
+                return BadRequest("Login or routeId was null");
+
+            var user = _databaseAccess.UserRepository.GetByLogin(request.login);
+
+            if (user == null)
+                return BadRequest($"Unable to find user with login {request.login}");
+
+            var result = _databaseAccess.WishlistRepository.CheckIfExists(request.routeId, user.UserId);
+
+            return Json(result);
+        }
+
+        [HttpPost]
+        [Route("deletebyloginandroute")]
+        public IActionResult DeleteByLoginAndRoute([FromBody] userLoginWithRoute request)
+        {
+            if (request == null)
+                return BadRequest("Request was null");
+
+            var user = _databaseAccess.UserRepository.GetByLogin(request.login);
+            if (user == null)
+                return BadRequest($"Unable to find user with login {request.login}");
+
+            var result = _databaseAccess.WishlistRepository.DeleteByUserAndRoute(request.routeId, user.UserId);
+
+            if (result)
+                return Json(result);
+            return BadRequest("Unable to delete wishlist");
+
         }
     }
 }

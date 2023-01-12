@@ -43,7 +43,7 @@ export default function Route(props){
                 </div>
                 </Link>
 
-                <FormComponent show={modalShow} id={props.Id} 
+                <FormComponent show={modalShow} id={props.routeId} 
                 onHide={() => onHide()} 
                 type="area" name={props.name}
                 element="rejon"  

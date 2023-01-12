@@ -12,12 +12,13 @@
         public bool IsShadedFromTrees { get; set; }
         public bool IsRecommended { get; set; }
         public bool IsLoose { get; set; }
-        public int PositionLatitude { get; set; }
-        public int PositionLogitude { get; set; }
+        public float Latitude { get; set; }
+        public float Longitude { get; set; }
         public bool Slabs { get; set; }
         public bool Vertical { get; set; }
         public bool Overhang { get; set; }
         public bool Roof { get; set; }
         public int AreaId { get; set; }
+        public bool changes { get; set; }
     }
 }

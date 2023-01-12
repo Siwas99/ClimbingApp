@@ -25,6 +25,8 @@ function Element(props) {
     const [isLoading, setLoading] = React.useState(true);
     const [routes, setRoutes] = React.useState(null);
     const [rock, setRock] = React.useState(null);
+    const [dominantFormations, setDominantFormations] = React.useState(null);
+
 
     //FORM
     const [number, setNumber] = React.useState(0);
@@ -70,9 +72,9 @@ function Element(props) {
         const handleEdit = (routeId) =>{
         axios({
             method: 'POST',
-            url: `${baseURL}routes/update?rockId=${Id}`,
+            url: `${baseURL}routes/update`,
             data: {
-                rockId: routeId,
+                routeId: routeId,
                 number: number,
                 name: name,
                 difficulty: grade,
@@ -113,7 +115,10 @@ function Element(props) {
             setRoutes(response.data);
             axios.post(`${baseURL}Rocks/getbyid?rockId=${Id}`).then((response) => {
                 setRock(response.data);
-                setLoading(false);
+                axios.post(`${baseURL}rocks/getrocksdominantformations?rockId=${Id}`).then((response) =>{
+                    setDominantFormations(response.data);
+                    setLoading(false);
+                })
             })
         });
     }
@@ -175,7 +180,7 @@ function Element(props) {
         setDescription("");
         setGrade("");
         setAuthor("");
-        setYear("");
+        setYear(0);
     }
 
     if(isLoading)
@@ -219,10 +224,10 @@ function Element(props) {
                                             </p>
                                         </Tab> : "" }
                     <Tab eventKey="info" title="Informacje">
-                        <RockInformation rock={rock}/>
+                        <RockInformation rock={rock} dominantFormations={dominantFormations}/>
                     </Tab>
                     <Tab eventKey="map" title="Mapa">
-                        <MapComponent name="Biblioteka" position={[12.345, 34.123]}/>
+                        <MapComponent name={rock.name} position={[rock.latitude, rock.longitude]}/>
                     </Tab>
                     {auth().role == "Admin" ?
                  <Tab eventKey="add" title="Dodaj">

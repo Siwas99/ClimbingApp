@@ -107,7 +107,30 @@ namespace ClimbingApp.Repositories
 
         public List<Wishlist> GetByUserId(int userId)
         {
-            return dbContext.Wishlists.Include(x => x.Route).Where(x => x.User.UserId == userId).ToList();
+            return dbContext.Wishlists.Include(x => x.Route).ThenInclude(x => x.Rock).ThenInclude(x => x.Area).ThenInclude(x => x.Region).Where(x => x.User.UserId == userId).ToList();
+        }
+        public bool CheckIfExists(int routeId, int userId)
+        {
+            var result = dbContext.Wishlists.Where(x => x.UserId == userId && x.RouteId == routeId).SingleOrDefault();
+            if (result != null)
+                return true;
+            return false;
+        }
+        public bool DeleteByUserAndRoute(int routeId, int userId)
+        {
+            var result = dbContext.Wishlists.Where(x => x.UserId == userId && x.RouteId == routeId).SingleOrDefault();
+            if (result == null)
+                return false;
+            try
+            {
+                dbContext.Remove(result);
+                dbContext.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+            return true;
         }
 
     }

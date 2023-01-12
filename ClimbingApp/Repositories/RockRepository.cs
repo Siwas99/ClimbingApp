@@ -37,6 +37,11 @@ namespace ClimbingApp.Repositories
 
         public bool Update(Rock rock)
         {
+            throw new NotImplementedException();
+        }
+
+        public bool Update(Rock rock, bool changes)
+        {
             var existingRock = GetById(rock.RockId);
              if (existingRock == null)
                 return false;
@@ -58,20 +63,20 @@ namespace ClimbingApp.Repositories
                 if (existingRock.Popularity != rock.Popularity && rock.Popularity >= 1)
                     existingRock.Popularity = rock.Popularity;
 
-                if(existingRock.isLoose != rock.isLoose)
+                if(existingRock.isLoose != rock.isLoose && changes)
                     existingRock.isLoose = rock.isLoose;
 
-                if(existingRock.isRecommended != rock.isRecommended)
+                if(existingRock.isRecommended != rock.isRecommended && changes)
                     existingRock.isRecommended = rock.isRecommended;
 
-                if(existingRock.isShadedFromTrees != rock.isShadedFromTrees)
+                if(existingRock.isShadedFromTrees != rock.isShadedFromTrees && changes)
                     existingRock.isShadedFromTrees = rock.isShadedFromTrees;
 
-                if (existingRock.positionLatitude != rock.positionLatitude && rock.positionLatitude >= 0)
-                    existingRock.positionLatitude = rock.positionLatitude;
+                if (existingRock.Latitude != rock.Latitude && rock.Latitude >= 0)
+                    existingRock.Latitude = rock.Latitude;
 
-                if (existingRock.positionLogitude != rock.positionLogitude && rock.positionLogitude >= 0)
-                    existingRock.positionLogitude = rock.positionLogitude;
+                if (existingRock.Longitude != rock.Longitude && rock.Longitude >= 0)
+                    existingRock.Longitude = rock.Longitude;
 
                 if (existingRock.RockFaceExposureId != rock.RockFaceExposureId && rock.RockFaceExposureId > 0)
                     existingRock.RockFaceExposureId = rock.RockFaceExposureId;
@@ -165,5 +170,11 @@ namespace ClimbingApp.Repositories
             var rock = dbContext.Rocks.Where(x => x.Name.Equals(name)).SingleOrDefault();
             return rock.RockId;
         }
+
+        public List<Rock> Search(string phrase)
+        {
+            return dbContext.Rocks.Where(x => x.Name.Contains(phrase)).ToList();
+        }
+
     }
 }

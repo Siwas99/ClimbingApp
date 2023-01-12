@@ -15,8 +15,8 @@ namespace ClimbingApp.Models
         public int Popularity { get; set; }
         public bool isRecommended { get; set; }
         public bool isLoose { get; set; }
-        public int positionLatitude { get; set; }
-        public int positionLogitude{ get; set; }
+        public float Latitude { get; set; }
+        public float Longitude{ get; set; }
         public int AreaId { get; set; }
 
         public virtual RockFaceExposure RockFaceExposure { get; set; }

@@ -85,5 +85,10 @@ namespace ClimbingApp.Repositories
             return dbContext.Regions.Where(x => x.RegionId == id).SingleOrDefault();
         }
 
+        public List<Region> Search(string phrase)
+        {
+            return dbContext.Regions.Where(x => x.Name.Contains(phrase)).ToList();
+        }
+
     }
 }

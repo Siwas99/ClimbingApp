@@ -1,10 +1,7 @@
 ﻿using AutoMapper;
 using ClimbingApp.Contracts.Repositories;
-using ClimbingApp.Models;
-using Microsoft.AspNetCore.Cors;
-using Microsoft.AspNetCore.Mvc;
+
 using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
 using Route = ClimbingApp.Models.Route;
 
 namespace ClimbingApp.Repositories
@@ -112,6 +109,12 @@ namespace ClimbingApp.Repositories
             return dbContext.Routes.Where(x => x.Rock.RockId== rockId).ToList();
 
         }
+
+        public List<Route> Search(string phrase)
+        {
+            return dbContext.Routes.Where(x => x.Name.Contains(phrase)).ToList();
+        }
+
 
     }
 }
