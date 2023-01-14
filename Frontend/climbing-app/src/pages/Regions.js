@@ -18,6 +18,8 @@ const baseURL = "https://localhost:7191/api/";
 
 function Regions() {
   const auth = useAuthUser();
+  const role = auth() !== null ? auth().role : "";
+
   const [regions, setRegions] = React.useState(null);
   const [isLoading, setLoading] = React.useState(true);
   const [modalShow, setModalShow] = React.useState(false);
@@ -48,7 +50,7 @@ function Regions() {
         })}
       </ul>
       <hr/>
-      { auth().role == "Admin" ?
+      {role == "Admin" ?
         <>
           <Button variant='outline-success' onClick={() => setModalShow(true)}>Dodaj rejon</Button>
           <AddModal show={modalShow} onHide={hideModal}/>

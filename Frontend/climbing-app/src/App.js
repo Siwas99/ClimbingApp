@@ -15,6 +15,7 @@ import Profile from './pages/profile';
 import Journey from './pages/journey';
 import Wishlist from './pages/wishlist';
 import SearchResultPage from './pages/searchResultPage';
+import AdminPanel from './pages/adminPanel';
 
 import { BrowserRouter as Router, Routes, Route} from 'react-router-dom';
 import { RequireAuth, AuthProvider } from 'react-auth-kit';
@@ -43,6 +44,7 @@ function App() {
               <Route path="register" element = {<Register/>}/>
               <Route path="/searchResults" element = {<SearchResultPage/>}/>
               <Route path="/searchResults/:phrase" element = {<SearchResultPage/>}/>
+              <Route path="/adminPanel" element = {<AdminPanel/>}/>
               <Route path={'/profile'} element={<RequireAuth loginPath='/login'>
 													<Profile/>
 												</RequireAuth>

@@ -19,6 +19,8 @@ const baseURL = "https://localhost:7191/api/";
 
 function Rocks() {
   const auth = useAuthUser();
+  const role = auth() !== null ? auth().role : "";
+
   const {Id} = useParams();
   const [rocks, setRocks] = useState(null);
   const [area, setArea] = useState(null);
@@ -321,7 +323,7 @@ function Rocks() {
                     {area.description}
                 </p>
             </Tab>
-              {auth().role == "Admin" ?
+              {role == "Admin" ?
                  <Tab eventKey="add" title="Dodaj">
                     {form()}
                     <Button variant="outline-success"onClick={handleSubmit} className="mr-btm-3">Dodaj</Button>

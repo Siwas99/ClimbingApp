@@ -17,9 +17,9 @@ export default function Route(props){
     const auth = useAuthUser();
     const {Id} = useParams();
     const [modalShow, setModalShow] = useState(false);
+    const role = auth() !== null ? auth().role : "";
 
 
-    const role = auth().role;
     const handleEditIcon = () => {
         setModalShow(true);
     }

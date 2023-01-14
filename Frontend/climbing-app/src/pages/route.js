@@ -14,7 +14,7 @@ import MapComponent from '../components/mapComponent';
 import Spinner from '../components/loadingComponent';
 import AddRouteToJourneyModal from '../components/addRoutetoJourneyModal';
 
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import {useAuthUser} from 'react-auth-kit'
 
 
@@ -23,6 +23,7 @@ const baseURL = "https://localhost:7191/api/";
 axios.defaults.withCredentials = true
 
 function Element(props) {
+    const navigate = useNavigate();
     const auth = useAuthUser();
     const { Id } = useParams();
     const [isLoading, setLoading] = React.useState(true);
@@ -40,8 +41,10 @@ function Element(props) {
     const getRoute = async () => {
         await axios.post(`${baseURL}routes/getroutebyid?routeId=${Id}`).then((response) => {
             setRoute(response.data);
-            checkJourney(response.data.routeId);
-            checkWishlist(response.data.routeId);
+            if(auth() !== null){
+                checkJourney(response.data.routeId);
+                checkWishlist(response.data.routeId);
+            }
             axios.post(`${baseURL}rocks/getrocksdominantformations?rockId=${response.data.rock.rockId}`).then((response) =>{
                 setDominantFormations(response.data);
                 setLoading(false);
@@ -50,7 +53,12 @@ function Element(props) {
     }
 
     const addToWishlist = async () => {
-        axios({
+        if(auth() === null ){
+            navigate("/wishlist");
+            return;
+        }
+        
+        await axios({
             method: 'POST',
             url: `${baseURL}wishlist/insert?login=${auth().login}`,
             data: JSON.stringify(route),

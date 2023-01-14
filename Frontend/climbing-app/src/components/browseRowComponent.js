@@ -13,7 +13,7 @@ export default function BrowseRowComponent(props) {
         textDecoration: "none",
         color: 'black'
     };
-   const role = auth().role;
+   const role = auth() !== null ? auth().role : "";
 
    const handleEditIcon = () => {
         setModalShow(true);

@@ -18,7 +18,8 @@ const linkStyle = {
                 return(
                     <Link to = {`/${props.type}/${Object.values(element)[0]}`} style = {linkStyle} key={index}>
                         <div className="resultRow">
-                            {element.name}
+                            {element.name} 
+                            {props.type === "routes" ?<> <span className="separator">| </span> {element.difficulty} </> : ""}
                         </div>
                     </Link>
                 )

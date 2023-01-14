@@ -21,17 +21,24 @@ import Offcanvas from 'react-bootstrap/Offcanvas';
   };
 
   const closeOffcanvas = function() {
-
+    console.log('raz raz1111!11!oneone');
     let offcanvasElementList = [].slice.call(document.querySelectorAll('.offcanvas'));
+	console.log(offcanvasElementList);
     let offcanvasList = offcanvasElementList.map(function (offcanvasEl) {
+		console.log(offcanvasEl);
       return Offcanvas(offcanvasEl)
     })
   }
 
 function NavbarComponent() {
   const [searchPhrase, setPhrase] = useState("");
+	const [menuOpen, setMenuOpen] = useState(false);
 
-  
+  const toggleMenu = () => {
+    setMenuOpen(!menuOpen)
+  }
+
+  const handleClose = () => setMenuOpen(false)
 
   const isAuthenticated = useIsAuthenticated()
   const signOut = useSignOut();
@@ -43,36 +50,39 @@ function NavbarComponent() {
     window.location.reload()
   }
   return (
+	  <>
       <Navbar key="md" bg="dark" variant="dark" expand="md" className="navigationBar mb-3">
         <Container fluid>
           <Navbar.Brand><Link to="/"><h1>ClimbApp</h1></Link></Navbar.Brand>
-          <Navbar.Toggle aria-controls={`offcanvasNavbar-expand-md`} />
+          <Navbar.Toggle aria-controls={`offcanvasNavbar-expand-md`} onClick={toggleMenu}/>
           <Navbar.Offcanvas
             id={`offcanvasNavbar-expand-md`}
             aria-labelledby={`offcanvasNavbarLabel-expand-md`}
             placement="end"
+			show={menuOpen}
+      		onHide={handleClose}
           >
             <Offcanvas.Header closeButton>
               <Offcanvas.Title id={`offcanvasNavbarLabel-expand-md`}>
-                <Link to="/" onClick={() => closeOffcanvas()}>ClimbApp</Link>
+                <Link to="/" onClick={toggleMenu} >ClimbApp</Link>
               </Offcanvas.Title>
             </Offcanvas.Header>
             <Offcanvas.Body className={setOffcanvasClasses()}>
               <Nav className="justify-content-end flex-grow-1 pe-3 offcanvasNavigation">
                 <div className="d-flex searchContainer">
-                  {/* <input type="text" placeholder="np. Kaszanka dla Kierownika" className="navbarSearch" onChange={(e) => {setPhrase(e.target.value)}} /> */}
-                  <Form.Control className="navbarSearch" type="text" placeholder="np. Kaszanka dla kierownika" onChange={(e) => {
-																								setPhrase(e.target.value);
-																								closeOffcanvas();
-																								}} />
-				  <Button variant="outline-success" onClick={() => navigate(`/searchResults/${searchPhrase}`)}>Szukaj</Button>
+					<Form.Control className="navbarSearch" type="text" placeholder="np. Kaszanka dla kierownika" onChange={(e) => {setPhrase(e.target.value)}} />
+					<Button variant="outline-success" onClick={() => {
+                                                        navigate(`/searchResults/${searchPhrase}`);
+														toggleMenu()
+                                                        }}>Szukaj
+					</Button>
                 </div>
-                <Link to="regions" onClick={() => closeOffcanvas()}>Przeglądaj drogi</Link>
-                <Link to="journey" onClick={() => closeOffcanvas()}>Dziennik</Link>
-                <Link to="wishlist" onClick={() => closeOffcanvas()}>Planowanie</Link>
+                <Link to="regions" onClick={toggleMenu}>Przeglądaj</Link>
+                <Link to="journey" onClick={toggleMenu}>Dziennik</Link>
+                <Link to="wishlist" onClick={toggleMenu}>Planowanie</Link>
                 {isAuthenticated() ?
-                <Link to='profile' onClick={() => closeOffcanvas()}>Profil</Link> :
-                <Link to='login' onClick={() => closeOffcanvas()}>Logowanie</Link>
+                <Link to='profile' onClick={toggleMenu}>Profil</Link> :
+                <Link to='login' onClick={toggleMenu}>Logowanie</Link>
               }
               </Nav>
             </Offcanvas.Body>
@@ -83,6 +93,7 @@ function NavbarComponent() {
           </Navbar.Offcanvas>
         </Container>
       </Navbar>
+	  </>
   );
 }
 

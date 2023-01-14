@@ -18,7 +18,7 @@ const linkStyle = {
 
 export default function Rock(props){   
     const auth = useAuthUser();
-    const role = auth().role;
+    const role = auth() !== null ? auth().role : "";
     const [modalShow, setModalShow] = useState(false);
 
 
@@ -37,7 +37,7 @@ export default function Rock(props){
                     <Link to={props.isRock ? `/rocks/${props.Id}`: `/areas/${props.Id}`} style={linkStyle}>
                         <span>{props.element.name}</span> 
                     </Link>
-                    {role ==="Admin"? <EditIcon function={handleEditIcon}/> : ""} 
+                    { role ==="Admin"? <EditIcon function={handleEditIcon}/> : ""} 
                 </div>
 
                 <Link to={props.isRock ? `/rocks/${props.Id}`: `/areas/${props.Id}`} style={linkStyle}>

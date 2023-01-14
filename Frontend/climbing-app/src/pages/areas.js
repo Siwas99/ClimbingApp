@@ -20,6 +20,8 @@ const baseURL = "https://localhost:7191/api/";
 
 function Areas() {
     const auth = useAuthUser();
+    const role = auth() !== null ? auth().role : "";
+
 
     //DIPLAY
     const {Id} = useParams()
@@ -170,7 +172,7 @@ function Areas() {
                 </Tab>
 
 
-                {auth().role == "Admin" ?
+                {role == "Admin" ?
                  <Tab eventKey="add" title="Dodaj">
                     {form()}
                     <Button variant="outline-success" onClick={handleSubmit} className="mr-btm-3">Dodaj</Button>

@@ -34,7 +34,7 @@ namespace ClimbingApp.Controllers
             {
                 return BadRequest("User was null");
             }
-            CreatePasswordHash(user.Password, out byte[] passwordHash, out byte[] passwordSalt);
+            _databaseAccess.UserRepository.CreatePasswordHash(user.Password, out byte[] passwordHash, out byte[] passwordSalt);
 
             try
             {
@@ -72,11 +72,10 @@ namespace ClimbingApp.Controllers
                 if (user == null)
                     return BadRequest("Nie znaleziono użytkownika");
 
-                if (!VerifyPasswordHash(request.Password, user.PasswordHash, user.PasswordSalt))
+                if (!_databaseAccess.UserRepository.VerifyPasswordHash(request.Password, user.PasswordHash, user.PasswordSalt))
                     return BadRequest("Wprowadzono niepoprawne hasło");
 
-                string token = CreateToken(user);
-                Response.Cookies.Append("test123", "123");
+                string token = _databaseAccess.UserRepository.GenerateToken(user, _configuration);
 
                 return Ok(Json(new List<string> {token, user.Role.Name }));
             }
@@ -84,47 +83,6 @@ namespace ClimbingApp.Controllers
             {
                 return BadRequest($"Something went wrong during attmept to login in.Exception: {ex}");
             }
-        }
-
-        private void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
-        {
-            using(var hmac = new HMACSHA512())
-            {
-                passwordSalt = hmac.Key;
-                passwordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(password));
-            }
-        }
-
-        private bool VerifyPasswordHash(string password, byte[] passwordHash, byte[] passwordSalt)
-        {
-            using(var hmac = new HMACSHA512(passwordSalt))
-            {
-                var computedHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(password));
-                return computedHash.SequenceEqual(passwordHash);
-            }
-        }
-
-        private string CreateToken(User user)
-        {
-            List<Claim> claims = new List<Claim>
-            {
-                new Claim(ClaimTypes.Name, user.Login),
-                new Claim(ClaimTypes.Role, user.Role.RoleId == 1 ? "Admin" : "User")
-            };
-
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(
-                _configuration.GetSection("AppSettings:Token").Value));
-
-            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
-
-            var token = new JwtSecurityToken(
-                claims: claims,
-                expires: DateTime.Now.AddHours(12),
-                signingCredentials: creds);
-
-            var jwt = new JwtSecurityTokenHandler().WriteToken(token);
-
-            return jwt;
         }
     }
 }

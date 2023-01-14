@@ -21,6 +21,8 @@ const baseURL = "https://localhost:7191/api/";
 
 function Element(props) {
     const auth = useAuthUser();
+    const role = auth() !== null ? auth().role : "";
+
     const { Id } = useParams();
     const [isLoading, setLoading] = React.useState(true);
     const [routes, setRoutes] = React.useState(null);
@@ -229,7 +231,7 @@ function Element(props) {
                     <Tab eventKey="map" title="Mapa">
                         <MapComponent name={rock.name} position={[rock.latitude, rock.longitude]}/>
                     </Tab>
-                    {auth().role == "Admin" ?
+                    {role == "Admin" ?
                  <Tab eventKey="add" title="Dodaj">
                     {form()}
                     <Button variant="outline-success"onClick={handleSubmit} className="mr-btm-3">Dodaj</Button>
