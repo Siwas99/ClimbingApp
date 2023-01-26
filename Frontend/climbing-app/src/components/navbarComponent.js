@@ -1,5 +1,5 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
-import '../styles/components.css'
+import '../App.css'
 
 
 import {Link, useNavigate} from 'react-router-dom';

@@ -1,5 +1,5 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
-import '../styles/components.css'
+import '../App.css'
 import { useState } from 'react';
 import {Link, useParams} from 'react-router-dom'
 import { useAuthUser } from 'react-auth-kit';
