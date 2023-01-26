@@ -158,16 +158,21 @@ function Areas() {
                 <Tab eventKey="rocks" title="Rejony">
                     <ul>
                         {areas.map(function(element, index){
-                            return(<Rock key = {index} Id={element.area.areaId} 
-                            element={element.area} numberOfRoutes = {element.numberOfRoutes} formTemplate = {form}
-                            onEdit = {handleEdit} onDelete = {handleDelete} onHide={closeModal}/>)
+                            return(<Rock key = {index} Id={element.obj.areaId} 
+                            element={element.obj} 
+                            url = "/areas"
+                            numberOfRoutes = {element.numberOfRoutes} 
+                            formTemplate = {form}
+                            onEdit = {handleEdit}
+                            onDelete = {handleDelete} 
+                            onHide={closeModal}/>)
                         }
                         )}
                     </ul>
                 </Tab>
                 <Tab eventKey="description" title="Opis">
                     <p className="description">
-                        {region.description}
+                        {region.description ? region.description : "Brak informacji"}
                     </p>
                 </Tab>
 

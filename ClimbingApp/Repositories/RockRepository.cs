@@ -43,7 +43,7 @@ namespace ClimbingApp.Repositories
         public bool Update(Rock rock, bool changes)
         {
             var existingRock = GetById(rock.RockId);
-             if (existingRock == null)
+            if (existingRock == null)
                 return false;
 
             try
@@ -53,7 +53,6 @@ namespace ClimbingApp.Repositories
 
                 if (!existingRock.Description.Equals(rock.Description) && !rock.Description.IsNullOrEmpty())
                     existingRock.Description = rock.Description;
-
                 if (existingRock.Distance != rock.Distance && rock.Distance >= 1)
                     existingRock.Distance = rock.Distance;
                 
@@ -63,19 +62,19 @@ namespace ClimbingApp.Repositories
                 if (existingRock.Popularity != rock.Popularity && rock.Popularity >= 1)
                     existingRock.Popularity = rock.Popularity;
 
-                if(existingRock.isLoose != rock.isLoose && changes)
-                    existingRock.isLoose = rock.isLoose;
+                if(existingRock.IsLoose != rock.IsLoose && changes)
+                    existingRock.IsLoose = rock.IsLoose;
 
-                if(existingRock.isRecommended != rock.isRecommended && changes)
-                    existingRock.isRecommended = rock.isRecommended;
+                if(existingRock.IsRecommended != rock.IsRecommended && changes)
+                    existingRock.IsRecommended = rock.IsRecommended;
 
-                if(existingRock.isShadedFromTrees != rock.isShadedFromTrees && changes)
-                    existingRock.isShadedFromTrees = rock.isShadedFromTrees;
+                if(existingRock.IsShadedFromTrees != rock.IsShadedFromTrees && changes)
+                    existingRock.IsShadedFromTrees = rock.IsShadedFromTrees;
 
-                if (existingRock.Latitude != rock.Latitude && rock.Latitude >= 0)
+                if (existingRock.Latitude != rock.Latitude && rock.Latitude >= 1)
                     existingRock.Latitude = rock.Latitude;
 
-                if (existingRock.Longitude != rock.Longitude && rock.Longitude >= 0)
+                if (existingRock.Longitude != rock.Longitude && rock.Longitude >= 1)
                     existingRock.Longitude = rock.Longitude;
 
                 if (existingRock.RockFaceExposureId != rock.RockFaceExposureId && rock.RockFaceExposureId > 0)
@@ -122,14 +121,14 @@ namespace ClimbingApp.Repositories
             return dbContext.Rocks.Where(x => x.Area.AreaId == AreaId).ToList();
         }
 
-        public List<RockWithNumberOfRoutes> ListRocksWithNumberOfRoutesByAreaId(int AreaId)
+        public List<GenericNumberOfRoutes<Rock>> ListRocksWithNumberOfRoutesByAreaId(int AreaId)
         {
             var rocks = dbContext.Rocks.Where(x => x.Area.AreaId == AreaId).ToList();
-            var result = new List<RockWithNumberOfRoutes>();
+            var result = new List<GenericNumberOfRoutes<Rock>>();
 
             foreach (var rock in rocks)
             {
-                result.Add(new RockWithNumberOfRoutes(rock, CountRoutesInRock(rock.RockId)));
+                result.Add(new GenericNumberOfRoutes<Rock>(rock, CountRoutesInRock(rock.RockId)));
             }
 
             return result;
@@ -176,5 +175,27 @@ namespace ClimbingApp.Repositories
             return dbContext.Rocks.Where(x => x.Name.Contains(phrase)).ToList();
         }
 
+        public bool UploadImage(IFormFile image, string name)
+        {
+            try
+            {
+                string path = AppDomain.CurrentDomain.BaseDirectory;
+                var fileName = $"{name}.jpg";
+                var newPath = Path.GetFullPath(Path.Combine(path, @"..\..\..\..\", @"Frontend\climbing-app\public\img", fileName));
+
+                if (System.IO.File.Exists(newPath))
+                    System.IO.File.Delete(newPath);
+
+                using (var fileStream = new FileStream(newPath, FileMode.Create))
+                {
+                    image.CopyToAsync(fileStream);
+                }
+                return true;
+            }
+            catch(Exception ex)
+            {
+                return false;
+            }
+        }
     }
 }

@@ -3,7 +3,6 @@
     public interface IDatabaseRepository
     {
         public IAreaRepository AreaRepository { get; }
-        public ICommentRepository CommentRepository { get; }
         public IDominantRockFormationRepository DominantRockFormationRepository { get; }
         public IExpeditionLogRepository ExpeditionLogRepository { get; }
         public IRegionRepository RegionRepository { get; }

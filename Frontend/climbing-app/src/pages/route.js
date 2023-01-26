@@ -13,6 +13,7 @@ import RockInformation from '../components/RockInformation';
 import MapComponent from '../components/mapComponent';
 import Spinner from '../components/loadingComponent';
 import AddRouteToJourneyModal from '../components/addRoutetoJourneyModal';
+import ToastComponent from '../components/ToastComponent';
 
 import { useParams, useNavigate } from "react-router-dom";
 import {useAuthUser} from 'react-auth-kit'
@@ -65,10 +66,21 @@ function Element(props) {
             headers: {'Content-Type': 'application/json'},
             dataType : "json"
         }).then(response => {
-            console.log(response.data);
             if(response.data === true)
                 setWishlist(true);
+            else
+                return (<ToastComponent />)
         });
+    }
+
+    const addToJourney = () => {
+        if(auth() === null ){
+            navigate("/wishlist");
+            return;
+        }
+
+        setModalShow(true);
+        
     }
 
     const deleteFromWishlist = async () => {
@@ -78,8 +90,6 @@ function Element(props) {
         }).then(response => {
             if(response.data  === true){
                 setWishlist(false);
-                console.log(`deletewishlist is ${wishlist}`);
-
             }
         });
     }
@@ -128,7 +138,7 @@ function Element(props) {
             <h2>{route.name}</h2>
             
             <div className="rockImage">
-                <Image src="/img/migdalowka.jpg" fluid/>
+                <Image src={`/img/${route.rock.name}.jpg`} fluid/>
             </div>
             <div className="infoSection">
                 <Tabs
@@ -151,10 +161,11 @@ function Element(props) {
                 </Tabs>
                 <br/>
             </div>
+            
             {
                 journey ?
                 <Button variant="outline-danger" onClick={deleteFromJourney}>Usuń wpis z dziennika</Button> :
-                <Button variant="outline-success" onClick={() => setModalShow(true)}>Dodaj wpis do dziennika</Button>
+                <Button variant="outline-success" onClick={addToJourney}>Dodaj wpis do dziennika</Button>
             }
             { 
                 wishlist ?

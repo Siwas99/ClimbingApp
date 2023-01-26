@@ -1,8 +1,8 @@
 .App {
   text-align: center;
-  min-height: 100vh;
+  height: 100vh;
   width: 100vw;
-  max-width: 100vw;
+  max-width: 100%;
   background-color: #ffffff;
 }
 
@@ -26,9 +26,6 @@ ul{
   padding: 0 !important;
 }
 
-.container {
-  padding-top:1%;
-}
 
 /* HOME */
 
@@ -78,12 +75,12 @@ ul{
 .footer{
   background-color: #282c34;
   color:#fff;
-  height:6%;
+  height:7vh;
   position: sticky;
   position: -webkit-sticky;
-  top:93%;
+  top:99%;
   width: 100%;
-  padding:1% 0;
+  padding:2% 0;
 }
 
 .footerInfoSection {
@@ -140,7 +137,7 @@ ul{
 }
 
 .logoutButton {
-  margin:0 10% 10% 10%;
+  margin:10%;
   width:80%;
 }
 
@@ -189,6 +186,7 @@ ul{
   align-items: center;
   width: 90%;
   padding-left:5%;
+  text-align: left;
  }
 
  .additionalInfo {
@@ -199,6 +197,7 @@ ul{
   justify-content: left;
   width: 100%;
   padding-left:5%;
+  text-align:left;
  }
 
  .description {
@@ -217,6 +216,7 @@ ul{
 .number {
   width: 14%;
   max-width:14%;
+  text-align: center;
 }
 
 /* INFORMATION ABOUT ROCK */
@@ -406,4 +406,81 @@ background-color: red;
 
 .resultRow {
   margin: 1% 0;
+}
+
+@media (min-width: 765px){
+/* NAVIGATION BAR */
+.navigationBar a {
+  color: #fff;
+  font-size:1em;
+  padding: 0 1%;
+  display: flex;
+  align-items: center;
+}
+
+.navigationBar{
+  width: 100vw;
+  max-width: 100%;
+  background-color: red;
+}
+
+.offcanvasNavigation a:nth-child(2){
+  border-top:none;
+}
+
+.logoutButton {
+  width:10%;
+  margin:0;
+  padding: 0;
+  padding-right:3%;
+  max-height: 100%;
+}
+
+.searchContainer {
+  padding-bottom:0;
+}
+/* FOOTER */
+.footer{
+  background-color: #282c34;
+  color:#fff;
+  height:8vh;
+  position: sticky;
+  position: -webkit-sticky;
+  top:99%;
+  width:100vw;
+  max-width: 100%;
+  padding:0;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;;
+}
+
+.footerNavSection{
+  padding-top: 1%;
+  width: 100%;
+}
+.footerNavSection a:hover{
+  color:white;
+}
+
+.footerInfoSection{
+  width: 100%;
+}
+.mainImage, .mainSearchBar{
+  margin:auto;
+  width:70%;
+}
+
+
+/* Breowse Row */
+.browseElementRow li{
+  min-height:9vh;
+}
+
+/* FORM */
+
+.form button{
+  width: 20%;
+  margin:auto;
+}
 }

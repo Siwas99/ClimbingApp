@@ -28,19 +28,18 @@ export default function Home() {
         })
     }
     return (
-        <>
-       <div className="mainImage">
-            <Image src="img/me.jpg" fluid/>
-        </div>
         <div className = "container">
+            <div className="mainImage">
+                <Image src="img/me Cropped.jpg" fluid/>
+            </div>
             <Form className="d-flex mainSearchBar">
-                <Form.Control
-                type="search"
-                placeholder=" np. Kaszanka dla Kierownika"
-                className="me-2"
-                aria-label="Search"
-                onChange={(e) => setPhrase(e.target.value)}
-                />
+            <Form.Control
+            type="search"
+            placeholder=" np. Kaszanka dla Kierownika"
+            className="me-2"
+            aria-label="Search"
+            onChange={(e) => setPhrase(e.target.value)}
+            />
             <Link to = {`searchResults/${searchPhrase}`}>
                 <Button variant="outline-success">Szukaj</Button>
             </Link>
@@ -62,6 +61,5 @@ export default function Home() {
             }
             </div>
         </div>
-</>     
     )
 }

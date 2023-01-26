@@ -217,13 +217,13 @@ namespace ClimbingApp.Migrations
                     b.Property<int>("RockFaceExposureId")
                         .HasColumnType("int");
 
-                    b.Property<bool>("isLoose")
+                    b.Property<bool>("IsLoose")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("isRecommended")
+                    b.Property<bool>("IsRecommended")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("isShadedFromTrees")
+                    b.Property<bool>("IsShadedFromTrees")
                         .HasColumnType("bit");
 
                     b.Property<int>("positionLatitude")

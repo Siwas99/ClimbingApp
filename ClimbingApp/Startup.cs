@@ -2,6 +2,7 @@
 using ClimbingApp.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
@@ -46,12 +47,11 @@ namespace ClimbingApp
                 options.AddPolicy("AllowAll", builder => 
                         builder.AllowAnyHeader()
                         .AllowAnyMethod()
-                        .SetIsOriginAllowed(origin => true) // allow any origin
                         .AllowCredentials()
+                        .WithOrigins("http://localhost:3000", "http://127.0.0.1:3000"));
+                        //.SetIsOriginAllowed(origin => true) // allow any origin
                         //.WithOrigins("http://localhost:3000", "http://127.0.0.1:3000")
-                        );
             });
-
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

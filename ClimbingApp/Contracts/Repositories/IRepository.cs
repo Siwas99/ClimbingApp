@@ -1,7 +1,4 @@
-﻿using ClimbingApp.Models;
-using ClimbingApp.Repositories;
-
-namespace ClimbingApp.Contracts.Repositories
+﻿namespace ClimbingApp.Contracts.Repositories
 {
     public interface IRepository<T>
     {
@@ -10,6 +7,5 @@ namespace ClimbingApp.Contracts.Repositories
         bool Insert(T obj);
         bool Delete(int id);
         T GetById(int id);
-
     }
 }

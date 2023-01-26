@@ -23,8 +23,8 @@ function Login() {
     const [email, setEmail] = useState("");
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
+    const [Success, setSuccess] = useState(false);
     const [Error, setError] = useState(null);
-    const signIn = useSignIn();
     const navigate = useNavigate();
 
 
@@ -37,21 +37,8 @@ function Login() {
             login: username,
             password: password
         }).then((response) => {
-        if(signIn(
-            {
-            token: response.data,
-            expiresIn: 3600,
-            tokenType: "Bearer",
-            authState: {login: username}
-            }
-        ))
-        {
-            navigate('/login');
-        }
-        else
-        {
-            setError(response.data);
-        }
+            setSuccess(true);
+            setError(null);
         }).catch(function(error){
         setError(error.response.data);
         });
@@ -104,6 +91,7 @@ function Login() {
                 <Button type="submit" variant="outline-success">Zarejestruj się</Button>
             </form>
             <br/>
+            {Success ? <Alert variant="success" onClick = {() => navigate("/login")}>Pomyslnie zarejestrowano nowego użytkownika. Kliknij aby się zalogować.</Alert> : "" }
             {Error ? <Alert variant="danger">{Error}</Alert> : "" }
         </div>
     )

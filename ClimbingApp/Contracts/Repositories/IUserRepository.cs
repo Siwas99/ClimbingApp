@@ -1,5 +1,4 @@
 ﻿using ClimbingApp.Data.DTO;
-using ClimbingApp.Models;
 using User = ClimbingApp.Models.User;
 
 namespace ClimbingApp.Contracts.Repositories
@@ -13,6 +12,5 @@ namespace ClimbingApp.Contracts.Repositories
         public bool VerifyPasswordHash(string password, byte[] passwordHash, byte[] passwordSalt);
         public void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt);
         public bool PromoteUser(string login);
-
     }
 }

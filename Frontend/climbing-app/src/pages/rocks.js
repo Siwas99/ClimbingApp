@@ -18,103 +18,99 @@ import { useAuthUser } from 'react-auth-kit';
 const baseURL = "https://localhost:7191/api/";
 
 function Rocks() {
-  const auth = useAuthUser();
-  const role = auth() !== null ? auth().role : "";
+	const auth = useAuthUser();
+	const role = auth() !== null ? auth().role : "";
 
-  const {Id} = useParams();
-  const [rocks, setRocks] = useState(null);
-  const [area, setArea] = useState(null);
-  const [isLoading, setLoading] = useState(true);
-  const [wasChanges, setWasChanged] = useState(false);
+	const {Id} = useParams();
+	const [rocks, setRocks] = useState(null);
+	const [area, setArea] = useState(null);
+	const [isLoading, setLoading] = useState(true);
+	const [wasChanges, setWasChanged] = useState(false);
 
-  const [success, setSuccess] = useState(false);
-  const [error, setError] = useState(false);
+	const [success, setSuccess] = useState(false);
+	const [error, setError] = useState(false);
 
 
-  const [name, setName] = useState("");
-  const [description, setDescription] = useState("");
-  const [height, setHeight] = useState(0);
-  const [distance, setDistance] = useState(0);
-  const [popularity, setPopularity] = useState(0);
-  const [latitude, setLatitude] = useState(0);
-  const [longitude, setLogitude] = useState(0);
-  const [exposure, setExposure] = useState("North");
-  const [slab, setSlab] = useState(false);
-  const [vertical, setVertical] = useState(false);
-  const [overhang, setOverhang] = useState(false);
-  const [roof, setRoof] = useState(false);
-  const [shaded, setShaded] = useState(false);
-  const [recommended, setRecommended] = useState(false);
-  const [loose, setLoose] = useState(false);
+	const [name, setName] = useState("");
+	const [description, setDescription] = useState(" ");
+	const [height, setHeight] = useState(0);
+	const [distance, setDistance] = useState(0);
+	const [popularity, setPopularity] = useState(2);
+	const [latitude, setLatitude] = useState(0);
+	const [longitude, setLogitude] = useState(0);
+	const [exposure, setExposure] = useState("North");
+	const [slab, setSlab] = useState(false);
+	const [vertical, setVertical] = useState(false);
+	const [overhang, setOverhang] = useState(false);
+	const [roof, setRoof] = useState(false);
+	const [shaded, setShaded] = useState(false);
+	const [recommended, setRecommended] = useState(false);
+	const [loose, setLoose] = useState(false);
+	const [selectedImage, setSelectedImage] = useState(null);
 
-  useEffect(() => {
-       getRocks();
-    }, []);
 
+	useEffect(() => {
+		getRocks();
+		}, []);
+
+	let rock = {
+		name: name,
+		description: description,
+		height: height,
+		distance: distance,
+		popularity: popularity,
+		rockFaceExposure: exposure,
+		isShadedFromTrees: shaded,
+		isRecommended: recommended,
+		isLoose: loose,
+		latitude: latitude,
+		longitude: longitude,
+		slabs: slab,
+		vertical: vertical,
+		overhang: overhang,
+		roof: roof,
+		changes: wasChanges,
+		rockId: 0,
+		image: selectedImage
+	}
+
+	const createFormData = () => {
+		const formData = new FormData();
+		for (let key in rock) {
+			formData.append(key, rock[key]);
+		}
+		return formData;
+    }
 
   const handleSubmit = () => {
-    const rock = {
-      name: name,
-      description: description,
-      height: height,
-      distance: distance,
-      popularity: popularity,
-      rockFaceExposure: exposure,
-      isShadedFromTrees: shaded,
-      isRecommended: recommended,
-      isLoose: loose,
-      positionLatitude: latitude,
-      positionLogitude: longitude,
-      slabs: slab,
-      vertical: vertical,
-      overhang: overhang,
-      roof: roof
-    }
-       axios({
-            method: 'PUT',
-            url: `${baseURL}rocks/insert?areaId=${Id}`,
-            data: JSON.stringify(rock),
-            headers: {'Content-Type': 'application/json'},
-            dataType : "json"
-        }).then(response => {
-            if(response){
-                setSuccess(true);
-                getRocks();
-            }
-            else
-                setError(true);
-        }).catch(response => {
-            setError(true);
-        });
+       	const formData = createFormData();
+		axios({
+			method: "put",
+			url: `${baseURL}rocks/insert?areaId=${Id}`,
+			data: formData,
+			headers: { "Content-Type": "multipart/form-data" },
+		}).then(response => {
+			if(response){
+				setSuccess(true);
+				getRocks();
+			}
+			else
+				setError(true);
+		}).catch(response => {
+			setError(true);
+		});
 
   }
 
     const handleEdit = (rockId) =>{
+		rock.rockId = rockId;
+       	const formData = createFormData();
+
         axios({
             method: 'POST',
             url: `${baseURL}rocks/update?areaId=${Id}`,
-            data: {
-                rockId: rockId,
-                name: name,
-                description: description,
-                height: height,
-                distance: distance,
-                popularity: popularity,
-                rockFaceExposure: exposure,
-                isShadedFromTrees: shaded,
-                isRecommended: recommended,
-                isLoose: loose,
-                latitude: latitude,
-                longitude: longitude,
-                slabs: slab,
-                vertical: vertical,
-                overhang: overhang,
-                roof: roof,
-                areaId: Id,
-                changes: wasChanges
-            },
-            headers: {'Content-Type': 'application/json'},
-            dataType : "json"
+            data: formData,
+			headers: { "Content-Type": "multipart/form-data" },
         }).then(response => {
             if(response) {
                 setSuccess(true);
@@ -265,7 +261,16 @@ function Rocks() {
                     min="1" 
                     value={longitude}
                     required
+					accept='image/jpeg, image/jpg'
                     onChange={(e) => setLogitude(e.target.value)}
+                />
+				<label>Zdjęcie</label>
+				 <input
+                    type="file"
+                    name="myImage"
+                    onChange={(event) => {
+                    setSelectedImage(event.target.files[0]);
+                    }}
                 />
 
             </form>
@@ -307,20 +312,27 @@ function Rocks() {
             className="mb-3">
             <Tab eventKey="rocks" title="Skały">
                 <ul>
-                    {rocks.map(function(element, index){
-                        return(<Rock key = {index} Id={element.rock.rockId}
-                            isRock={true} element = {element.rock}
-                            numberOfRoutes = {element.numberOfRoutes}
-                            formTemplate = {form}
-                            onEdit = {handleEdit} onDelete = {handleDelete} onHide={closeModal}
+                    {rocks !== null ?
+                        rocks.map(function(element, index){
+                        return(<Rock key = {index}
+                                    Id={element.obj.rockId}
+                                    url = "/rocks" 
+                                    element = {element.obj}
+                                    numberOfRoutes = {element.numberOfRoutes}
+                                    formTemplate = {form}
+                                    onEdit = {handleEdit} 
+                                    onDelete = {handleDelete} 
+                                    onHide={closeModal}
                          />)
-                      }
-                    )}
+                        })
+                        :
+                        "Brak skał  "
+                    }
                 </ul>
             </Tab>
             <Tab eventKey="description" title="Opis">
                 <p className="description">
-                    {area.description}
+                    {area.description ? area.description : "Brak informacji"}
                 </p>
             </Tab>
               {role == "Admin" ?

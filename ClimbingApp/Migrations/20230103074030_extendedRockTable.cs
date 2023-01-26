@@ -58,21 +58,21 @@ namespace ClimbingApp.Migrations
                 defaultValue: 0);
 
             migrationBuilder.AddColumn<bool>(
-                name: "isLoose",
+                name: "IsLoose",
                 table: "Rocks",
                 type: "bit",
                 nullable: false,
                 defaultValue: false);
 
             migrationBuilder.AddColumn<bool>(
-                name: "isRecommended",
+                name: "IsRecommended",
                 table: "Rocks",
                 type: "bit",
                 nullable: false,
                 defaultValue: false);
 
             migrationBuilder.AddColumn<bool>(
-                name: "isShadedFromTrees",
+                name: "IsShadedFromTrees",
                 table: "Rocks",
                 type: "bit",
                 nullable: false,
@@ -131,15 +131,15 @@ namespace ClimbingApp.Migrations
                 table: "Rocks");
 
             migrationBuilder.DropColumn(
-                name: "isLoose",
+                name: "IsLoose",
                 table: "Rocks");
 
             migrationBuilder.DropColumn(
-                name: "isRecommended",
+                name: "IsRecommended",
                 table: "Rocks");
 
             migrationBuilder.DropColumn(
-                name: "isShadedFromTrees",
+                name: "IsShadedFromTrees",
                 table: "Rocks");
 
             migrationBuilder.AlterColumn<int>(

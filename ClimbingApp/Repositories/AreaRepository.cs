@@ -40,7 +40,6 @@ namespace ClimbingApp.Repositories
             if (existingArea == null)
                 return false;
             
-
             try
             {
                 if (!existingArea.Name.Equals(area.Name) && !String.IsNullOrEmpty(area.Name))
@@ -90,14 +89,14 @@ namespace ClimbingApp.Repositories
             return dbContext.Areas.Where(x => x.Region.RegionId == regionId).ToList();
         }
 
-        public List<AreaWithNumberOfRoutes> ListAreasWithNumberOfRoutesByRegionId(int regionId)
+        public List<GenericNumberOfRoutes<Area>> ListAreasWithNumberOfRoutesByRegionId(int regionId)
         {
             var areas = dbContext.Areas.Where(x => x.Region.RegionId == regionId).ToList();
-            var result = new List<AreaWithNumberOfRoutes>();
+            var result = new List<GenericNumberOfRoutes<Area>>();
 
             foreach (var area in areas)
             {
-                result.Add(new AreaWithNumberOfRoutes(area, CountRoutesInArea(area.AreaId)));
+                result.Add(new GenericNumberOfRoutes<Area>(area, CountRoutesInArea(area.AreaId)));
             }
 
             return result;

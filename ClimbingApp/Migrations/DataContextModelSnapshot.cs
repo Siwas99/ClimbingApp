@@ -69,34 +69,6 @@ namespace ClimbingApp.Migrations
                     b.ToTable("ClimbStyle");
                 });
 
-            modelBuilder.Entity("ClimbingApp.Models.Comment", b =>
-                {
-                    b.Property<int>("CommentId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CommentId"));
-
-                    b.Property<int>("CommentObject")
-                        .HasColumnType("int");
-
-                    b.Property<int>("CommentObjectId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Commentary")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.HasKey("CommentId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Comments");
-                });
-
             modelBuilder.Entity("ClimbingApp.Models.DominantRockFormation", b =>
                 {
                     b.Property<int>("DominantRockFormationId")
@@ -132,7 +104,6 @@ namespace ClimbingApp.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Comment")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("Date")
@@ -191,7 +162,6 @@ namespace ClimbingApp.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Distance")
@@ -210,23 +180,19 @@ namespace ClimbingApp.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("PhotoURL")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int>("Popularity")
                         .HasColumnType("int");
 
                     b.Property<int>("RockFaceExposureId")
                         .HasColumnType("int");
 
-                    b.Property<bool>("isLoose")
+                    b.Property<bool>("IsLoose")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("isRecommended")
+                    b.Property<bool>("IsRecommended")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("isShadedFromTrees")
+                    b.Property<bool>("IsShadedFromTrees")
                         .HasColumnType("bit");
 
                     b.HasKey("RockId");
@@ -400,17 +366,6 @@ namespace ClimbingApp.Migrations
                         .IsRequired();
 
                     b.Navigation("Region");
-                });
-
-            modelBuilder.Entity("ClimbingApp.Models.Comment", b =>
-                {
-                    b.HasOne("ClimbingApp.Models.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("ClimbingApp.Models.DominantRockFormation", b =>

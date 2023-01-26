@@ -1,4 +1,6 @@
-﻿namespace ClimbingApp.Data.DTO
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Binders;
+
+namespace ClimbingApp.Data.DTO
 {
     public class RockDTO
     {
@@ -20,5 +22,6 @@
         public bool Roof { get; set; }
         public int AreaId { get; set; }
         public bool changes { get; set; }
+        public IFormFile Image { get; set; }
     }
 }

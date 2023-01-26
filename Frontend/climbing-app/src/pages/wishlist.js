@@ -9,10 +9,9 @@ import React from 'react';
 import {Link} from 'react-router-dom'
 
 
-import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
-import { useParams } from "react-router-dom";
-import {useAuthUser} from 'react-auth-kit'
+import { Alert } from 'react-bootstrap';
+import {useAuthUser} from 'react-auth-kit';
+
 
 
 
@@ -28,6 +27,7 @@ export default function Journey() {
     const auth = useAuthUser();
     const [wishlists, setWishlists] = React.useState(null);
     const [isLoading, setLoading] = React.useState(true);
+    const [error, setError] = React.useState(false);
 
     React.useEffect(() => {
             getWishlists();
@@ -42,7 +42,14 @@ export default function Journey() {
     } 
 
     const handleDelete = (id) => {
-        axios.post(`${baseURL}wishlist/delete?id=${id}`).then(() => {getWishlists()});
+        axios.post(`${baseURL}wishlist/delete?id=${id}`)
+        .then((response) => {
+            getWishlists();
+            if(!response.data )
+                setError(true);
+        }).catch(() => {
+            setError(true);
+        });
     }
 
     if(isLoading)
@@ -53,7 +60,6 @@ export default function Journey() {
             <h2>Planowane drogi</h2>
             <hr/>
             <div className="manageProfile">
-                <h4>Historia</h4>
                 <ul>
                      { wishlists.length > 0 ?
                     wishlists.map(function(element, index){
@@ -70,6 +76,7 @@ export default function Journey() {
                 </ul>
 
             </div>
+            {error ? <Alert variant="danger"> Podczas usuwania drogi wystąpił błąd</Alert> : ""}
         </div>
     );
 }

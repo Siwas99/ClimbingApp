@@ -65,6 +65,7 @@ export default function Profile() {
             })
         })
     }
+    console.log(auth());
 
     const closeAccount = () => {
         axios.post(`${baseURL}users/delete?id=${user.userId}`)
@@ -73,6 +74,8 @@ export default function Profile() {
                 signOut();
                 navigate("/");
                 window.location.reload();
+        }).catch(() => {
+            setAlert({isVisible: true, message: "Podczas usuwania konta wystąpił błąd.", variant: "danger"});
         })
     }
 
@@ -102,7 +105,6 @@ export default function Profile() {
                 ))
                 setUser(response.data);
                 setAlert({isVisible: true, message:"Pomyślnie edytowano użytkownika", variant: "success"} );
-                console.log(showAlert);
             }
             else
                 setAlert({isVisible: true, message:"Podczas edycji użytkownika wystąpił błąd", variant: "danger"} );

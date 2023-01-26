@@ -7,7 +7,6 @@ namespace ClimbingApp.Data
     {
         public DataContext(DbContextOptions<DataContext> options) : base(options) { }
         public DbSet<Area> Areas { get; set; }
-        public DbSet<Comment> Comments { get; set; }
         public DbSet<ClimbStyle> ClimbStyle { get; set; }
         public DbSet<DominantRockFormation> DominantRockFormations { get; set; }
         public DbSet<ExpeditionLog> ExpeditionLogs { get; set; } 

@@ -43,7 +43,7 @@ namespace ClimbingApp.Controllers
         [Route("getRegions")]
         public IActionResult List()
         {
-            var result = _databaseAccess.RegionRepository.List();
+            var result = _databaseAccess.RegionRepository.ListRegionsWithNumberOfRoutes();
 
             return Json(result);
 
@@ -53,6 +53,7 @@ namespace ClimbingApp.Controllers
         [Route("update")]
         public IActionResult Update([FromBody] Region updateData)
         {
+            return BadRequest();
             try
             {
                 var result = _databaseAccess.RegionRepository.Update(updateData);

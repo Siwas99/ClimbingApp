@@ -36,7 +36,7 @@ function Element(props) {
     const [grade, setGrade] = React.useState("");
     const [description, setDescription] = React.useState("");
     const [author, setAuthor] = React.useState("");
-    const [year, setYear] = React.useState("");
+    const [year, setYear] = React.useState(0);
 
     //
     const [success, setSuccess] = React.useState(false);
@@ -187,13 +187,13 @@ function Element(props) {
 
     if(isLoading)
         return (<Spinner/>)
-
+    console.log(rock.name);
     return (
         <div className='container'>
             <h2>{rock.name}</h2>
             
             <div className="rockImage">
-                <Image src="/img/migdalowka.jpg" fluid/>
+                <Image src={`/img/${rock.name}.jpg`} fluid/>
             </div>
             <div className="infoSection">
                 <Tabs

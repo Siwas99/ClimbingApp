@@ -28,6 +28,7 @@ export default function Route(props){
         props.onHide();
         setModalShow(false);
     }
+    console.log(props.author == "");
     return(
         
             <li>
@@ -39,7 +40,7 @@ export default function Route(props){
                 </div>
                 <Link to={`/routes/${props.routeId}`} style={linkStyle}>
                 <div className = "additionalInfo">
-                    {props.author}, {props.year} {props.info ? `- ${props.info}` : ""}
+                    {(props.author == "" || props.author == " ") ? "" : `${props.author} -`} {props.year} {props.info ? `- ${props.info}` : ""}
                 </div>
                 </Link>
 

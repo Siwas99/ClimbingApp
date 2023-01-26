@@ -6,7 +6,6 @@ namespace ClimbingApp.Repositories
     public class DatabaseRepository : IDatabaseRepository
     {
         public IAreaRepository AreaRepository { get; private set; }
-        public ICommentRepository CommentRepository { get; private set; }
         public IDominantRockFormationRepository DominantRockFormationRepository { get; private set; }
         public IExpeditionLogRepository ExpeditionLogRepository { get; private set; }
         public IRegionRepository RegionRepository { get; private set; }
@@ -20,7 +19,6 @@ namespace ClimbingApp.Repositories
         public DatabaseRepository(DataContext dbContext)
         {
             AreaRepository = new AreaRepository(dbContext, this);
-            CommentRepository = new CommentRepository(dbContext, this);
             DominantRockFormationRepository = new DominantRockFormationRepository(dbContext, this);
             ExpeditionLogRepository = new ExpeditionLogRepository(dbContext, this);
             RegionRepository = new RegionRepository(dbContext, this);

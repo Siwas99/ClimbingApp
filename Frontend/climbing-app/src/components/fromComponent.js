@@ -31,7 +31,7 @@ export default function FormComponent(props) {
         >
         <Modal.Header>
             <Modal.Title id="contained-modal-title-vcenter">
-                Edytuj {props.element} {props.name ? `- ${props.name}` : ''}
+                Edytuj {props.name ? `- ${props.name}` : ''}
             </Modal.Title>
         </Modal.Header>
         <Modal.Body>

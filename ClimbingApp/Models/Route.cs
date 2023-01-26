@@ -10,6 +10,7 @@
         public string? Author { get; set; }
         public int? Year { get; set; }
         public int RockId { get; set; }
+
         public virtual Rock Rock { get; set; }
     }
 }

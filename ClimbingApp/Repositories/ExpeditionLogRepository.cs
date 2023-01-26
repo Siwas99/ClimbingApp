@@ -97,7 +97,7 @@ namespace ClimbingApp.Repositories
 
         public List<ExpeditionLog> GetLastest()
         {
-            return dbContext.ExpeditionLogs.Include(x => x.Route).ThenInclude(x => x.Rock).Include(x => x.User).Take(3).ToList();
+            return dbContext.ExpeditionLogs.Include(x => x.Route).ThenInclude(x => x.Rock).Include(x => x.User).OrderByDescending(x => x.ExpeditionLogId).Take(3).ToList();
         }
 
         public ExpeditionLog GetById(int id)
@@ -118,9 +118,9 @@ namespace ClimbingApp.Repositories
             return false;
         }
 
-        public bool DeleteByUserAndRoute(int expeditionLogId, int userId)
+        public bool DeleteByUserAndRoute(int routeId, int userId)
         {
-            var result = dbContext.ExpeditionLogs.Where(x => x.UserId == userId && x.ExpeditionLogId == expeditionLogId).SingleOrDefault();
+            var result = dbContext.ExpeditionLogs.Where(x => x.UserId == userId && x.RouteId == routeId).SingleOrDefault();
             if (result == null)
                 return false;
             try

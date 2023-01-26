@@ -2,14 +2,14 @@
 
 namespace ClimbingApp.Data.DTO
 {
-    public class AreaWithNumberOfRoutes
+    public class GenericNumberOfRoutes<T>
     {
-        public Area Area { get; set; }
+        public T Obj { get; set; }
         public NumberOfRoutes NumberOfRoutes { get; set; }
 
-        public AreaWithNumberOfRoutes(Area area, NumberOfRoutes numberOfRoutes)
+        public GenericNumberOfRoutes(T obj, NumberOfRoutes numberOfRoutes)
         {
-            Area = area;
+            Obj = obj;
             NumberOfRoutes = numberOfRoutes;
         }
     }

@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using System.Transactions;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace ClimbingApp.Controllers
 {
@@ -24,9 +25,9 @@ namespace ClimbingApp.Controllers
 
         [HttpPost]
         [Route("search")]
-        public IActionResult Search([FromQuery] string phrase) 
+        public IActionResult Search([FromQuery] string phrase)
         {
-            if(phrase == null)
+            if (phrase == null)
                 return BadRequest("Phrase was null");
 
             try
@@ -39,10 +40,72 @@ namespace ClimbingApp.Controllers
 
                 if (searchResult.Regions.IsNullOrEmpty() && searchResult.Areas.IsNullOrEmpty() && searchResult.Rocks.IsNullOrEmpty() && searchResult.Routes.IsNullOrEmpty())
                     return NoContent();
-                    
+
                 return Json(searchResult);
             }
-            catch(Exception ex)
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPost]
+        [Route("imagetest")]
+        public IActionResult UploadImage([FromForm] RockDTO rock)
+        {
+            if (rock == null) 
+                return BadRequest("rock was null");
+            try
+            {
+                string path = AppDomain.CurrentDomain.BaseDirectory;
+                //string sCurrentDirectory = Path.GetFullPath(Path.Combine(path, @"..\..\"));
+                var fileName = $"{rock.Name}.jpg";
+                var  newPath = Path.GetFullPath(Path.Combine(path, @"..\..\..\..\", @"Frontend\climbing-app\public\img", fileName));
+                Console.WriteLine(newPath);
+
+
+                using (Stream stream = new FileStream(newPath, FileMode.Create))
+                {
+                    rock.Image.CopyTo(stream);
+
+
+                }
+                    return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPost]
+        [Route("imagechange")]
+        public  IActionResult ChangeImage([FromForm] RockDTO rock)
+        {
+            if (rock == null)
+                return BadRequest("rock was null");
+
+            try
+            {
+                string path = AppDomain.CurrentDomain.BaseDirectory;
+                //string sCurrentDirectory = Path.GetFullPath(Path.Combine(path, @"..\..\"));
+                var fileName = $"{rock.Name}.jpg";
+                var newPath = Path.GetFullPath(Path.Combine(path, @"..\..\..\..\", @"Frontend\climbing-app\public\img", fileName));
+                Console.WriteLine(newPath);
+
+                if (System.IO.File.Exists(newPath))
+                {
+                    // usunięcie pliku
+                    System.IO.File.Delete(newPath);
+                }
+                // zapisanie nowego pliku
+                using (var fileStream = new FileStream(newPath, FileMode.Create))
+                {
+                    rock.Image.CopyToAsync(fileStream);
+                }
+                return Ok();
+            }
+            catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }

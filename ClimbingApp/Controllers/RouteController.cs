@@ -21,6 +21,8 @@ namespace ClimbingApp.Controllers
         [Route("insert")]
         public IActionResult Insert([FromBody] Route insertData, [FromQuery] int rockId)
         {
+            if (insertData == null || rockId == 0)
+                return BadRequest("insertedData was null or rockId was 0");
             try
             {
                 insertData.RockId = rockId;
@@ -33,7 +35,6 @@ namespace ClimbingApp.Controllers
                 return BadRequest(e);
             }
             return BadRequest("Unable to insert route");
-
         }
 
 
@@ -51,8 +52,8 @@ namespace ClimbingApp.Controllers
         [Route("update")]
         public IActionResult Update([FromBody] Route updateData)
         {
-            //if (rockId == null)
-            //    return BadRequest("rockId was null");
+            if (updateData == null)
+                return BadRequest("updateData was null");
 
             try
             {

@@ -11,52 +11,51 @@ import { useSignIn } from 'react-auth-kit';
 import Button from 'react-bootstrap/Button';
 import Alert from 'react-bootstrap/Alert';
 
-import Form from 'react-bootstrap/Form';
-
 const baseURL = "https://localhost:7191/api/";
 
 const linkStyle = {
     color: "green"
 }
 
-function Login(props) {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [user, setUser] = useState(false);
-  const [Error, setError] = useState(null);
+function Login() {
+	const [username, setUsername] = useState("");
+	const [password, setPassword] = useState("");
+	const [Success, setSuccess] = useState(false);
+	const [Error, setError] = useState(null);
 
-  const signIn = useSignIn();
-  const navigate = useNavigate();
+	const signIn = useSignIn();
+	const navigate = useNavigate();
 
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    axios.post(`${baseURL}auth/login`,{
-      login: username,
-      password: password
-    }).then((response) => {
-      const role = response.data.value[1];
-      if(signIn(
-        {
-        token: response.data,
-        expiresIn: 3600,
-        tokenType: "Bearer",
-        authState: {login: username,
-                    role: role}
-        }
-      ))
-      {
-        // navigate(-1);
-        }else{
-          setError(response.data);
+	const handleSubmit = (event) => {
+		event.preventDefault();
+		axios.post(`${baseURL}auth/login`,{
+			login: username,
+			password: password
+		}).then((response) => {
+			const role = response.data.value[1];
+			if(signIn(
+				{
+				token: response.data.value[0],
+				expiresIn: 3600,
+				tokenType: "Bearer",
+				authState: {login: username,
+							role: role}
+				}
+			)){
+				setSuccess(true);
+        setError(null);
       }
-    }).catch(function(error){
-      setError(error.response.data);
-    });
+			else{
+			setError(response.data);
+			}
+		}).catch(function(error){
+			setError(error.response.data);
+		});
   }
   
   return (
-    <div className='container'>
+	<div className='container'>
     <h3>Logowanie</h3>
       <form onSubmit={handleSubmit} className="form">
           <label>Nazwa użytkownika</label>
@@ -80,6 +79,7 @@ function Login(props) {
       <p>
           Nie masz konta? <Link to="/register" style={linkStyle}>Zarejestruj się!</Link>
       </p>
+      {Success ? <Alert variant="success">Zalogowano pomyślanie!</Alert> : "" }
       {Error ? <Alert variant="danger">{Error}</Alert> : "" }
     </div>
   )

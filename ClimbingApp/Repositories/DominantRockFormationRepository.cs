@@ -49,7 +49,7 @@ namespace ClimbingApp.Repositories
                 var rockFormationsToDelete = dbContext.DominantRockFormations.Where(x => x.RockId == rockId).ToList();
 
                 if(rockFormationsToDelete.IsNullOrEmpty())
-                    return false;
+                    return true;
                 
                 dbContext.RemoveRange(rockFormationsToDelete);
                 dbContext.SaveChanges();
@@ -96,14 +96,14 @@ namespace ClimbingApp.Repositories
 
             try
             {
-                foreach(var rockFormationName in rockFormationNames)
+                foreach (var rockFormationName in rockFormationNames)
                 {
                     if(!InsertByRockId(rockId, rockFormationName))
                         return false;
                 }
                 return true;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return false;
             }

@@ -8,6 +8,7 @@ namespace ClimbingApp.Models
         public string Name { get; set; }
         public string Description { get; set; }
         public int RegionId { get; set; }    
+
         public virtual Region Region { get; set; }    
     }
 }
