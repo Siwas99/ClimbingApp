@@ -4,6 +4,7 @@ using ClimbingApp.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ClimbingApp.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20230202125155_addedSeedsToRolesTable")]
+    partial class addedSeedsToRolesTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -67,32 +70,6 @@ namespace ClimbingApp.Migrations
                     b.HasKey("ClimbStyleId");
 
                     b.ToTable("ClimbStyle");
-
-                    b.HasData(
-                        new
-                        {
-                            ClimbStyleId = 1,
-                            Description = "Czyste przejście drogi, tzn. bez odpadnięcia i obciążania liny, bez jej znajomości. Oznacza to, że niedozwolone są podpowiedzi lub obserwacja innych wspinaczy.",
-                            Name = "On Sight"
-                        },
-                        new
-                        {
-                            ClimbStyleId = 2,
-                            Description = "Czyste przejście drogii, tzn. bez odpadnięcia i obciążania liny, ze znajomością drogi. Oznacza to, że podpowiedzi oraz oglądanie innych wspinaczy jest dozwolone.",
-                            Name = "Flash"
-                        },
-                        new
-                        {
-                            ClimbStyleId = 3,
-                            Description = "Przejście całej drogi od początku do końca bez odpadnięć i odpoczynków. Dozwolone jest wcześniejsze ćwiczenie drogi i opracowanie sekwencji przechwytów. Styl ten uważa się za normalny w przypadku trudniejszych dróg.",
-                            Name = "Red Point"
-                        },
-                        new
-                        {
-                            ClimbStyleId = 4,
-                            Description = "Lina asekurująca wspinacza biegnie na górę, przechodzi przez stanowisko i wraca do stojącego na dole partnera. Przejście drogi w tym stylu nie jest obecnie uznawane za klasyczne, jednak z uwagi na najmniejsze ryzyko urazów wspinaczka na wędkę ma znaczenie w treningu, patentowaniu drogi oraz we wspinaczkowej rekreacji, szczególnie u osób początkujących.",
-                            Name = "Top Rope"
-                        });
                 });
 
             modelBuilder.Entity("ClimbingApp.Models.DominantRockFormation", b =>
@@ -245,28 +222,6 @@ namespace ClimbingApp.Migrations
                     b.HasKey("RockFaceExposureId");
 
                     b.ToTable("RockFaceExposures");
-
-                    b.HasData(
-                        new
-                        {
-                            RockFaceExposureId = 1,
-                            Name = "North"
-                        },
-                        new
-                        {
-                            RockFaceExposureId = 2,
-                            Name = "East"
-                        },
-                        new
-                        {
-                            RockFaceExposureId = 3,
-                            Name = "South"
-                        },
-                        new
-                        {
-                            RockFaceExposureId = 4,
-                            Name = "West"
-                        });
                 });
 
             modelBuilder.Entity("ClimbingApp.Models.RockFormation", b =>
@@ -284,28 +239,6 @@ namespace ClimbingApp.Migrations
                     b.HasKey("RockFormationId");
 
                     b.ToTable("RockFormations");
-
-                    b.HasData(
-                        new
-                        {
-                            RockFormationId = 1,
-                            Name = "Slabs"
-                        },
-                        new
-                        {
-                            RockFormationId = 2,
-                            Name = "Vertical"
-                        },
-                        new
-                        {
-                            RockFormationId = 3,
-                            Name = "Overhang"
-                        },
-                        new
-                        {
-                            RockFormationId = 4,
-                            Name = "Roof"
-                        });
                 });
 
             modelBuilder.Entity("ClimbingApp.Models.Role", b =>

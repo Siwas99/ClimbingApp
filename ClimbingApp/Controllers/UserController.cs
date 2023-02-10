@@ -160,10 +160,10 @@ namespace ClimbingApp.Controllers
             {
                 var result = _databaseAccess.UserRepository.PromoteUser(login);
 
-                if (result == null)
-                    return Json(false);
+                if (result)
+                    return Json(true);
 
-                return Json(true);
+                return Json(false);
             }
             catch(Exception ex)
             {
@@ -186,10 +186,10 @@ namespace ClimbingApp.Controllers
                     return Json(false);
 
                 var result = _databaseAccess.UserRepository.Delete(user.UserId);
-                if (!result)
-                    return Json(false);
+                if (result)
+                    return Json(true);
 
-                return Json(true);
+                return Json(false);
             }
             catch (Exception ex)
             {

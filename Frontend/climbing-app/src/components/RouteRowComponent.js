@@ -1,7 +1,7 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../App.css'
 import { useState } from 'react';
-import {Link, useParams} from 'react-router-dom'
+import {Link} from 'react-router-dom'
 import { useAuthUser } from 'react-auth-kit';
 import {EditIcon} from './icons/editIcon.jsx';
 import FormComponent from '../components/fromComponent';
@@ -15,7 +15,6 @@ const linkStyle = {
 
 export default function Route(props){
     const auth = useAuthUser();
-    const {Id} = useParams();
     const [modalShow, setModalShow] = useState(false);
     const role = auth() !== null ? auth().role : "";
 
@@ -28,7 +27,7 @@ export default function Route(props){
         props.onHide();
         setModalShow(false);
     }
-    console.log(props.author == "");
+    console.log(props.author === "");
     return(
         
             <li>
@@ -40,7 +39,7 @@ export default function Route(props){
                 </div>
                 <Link to={`/routes/${props.routeId}`} style={linkStyle}>
                 <div className = "additionalInfo">
-                    {(props.author == "" || props.author == " ") ? "" : `${props.author} -`} {props.year} {props.info ? `- ${props.info}` : ""}
+                    {(props.author === "" || props.author === " ") ? "" : `${props.author} -`} {props.year} {props.info ? `- ${props.info}` : ""}
                 </div>
                 </Link>
 

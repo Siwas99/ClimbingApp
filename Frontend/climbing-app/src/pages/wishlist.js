@@ -45,8 +45,8 @@ export default function Journey() {
         axios.post(`${baseURL}wishlist/delete?id=${id}`)
         .then((response) => {
             getWishlists();
-            if(!response.data )
-                setError(true);
+            // if(!response.data )
+            //     setError(true);
         }).catch(() => {
             setError(true);
         });
